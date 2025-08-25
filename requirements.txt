@@ -1,0 +1,5 @@
+matplotlib==3.10.3
+mph==1.2.4
+numpy==2.3.1
+pandas==2.3.1
+scipy==1.16.0
