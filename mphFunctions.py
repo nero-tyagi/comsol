@@ -11,7 +11,7 @@ def get_parameters(model):
     for (name, value) in model.parameters().items():
         parameter = [name, value]
         parameters.append(parameter)
-    return parameters
+
 
 # Returns the value of a stated parameter
 def get_parameter(model, parameter_name):
@@ -53,7 +53,7 @@ def get_exports(model):
 def get_problems(model):
     return model.problems()
 
-def get_node_properties(model, node, property_type):
+def get_node_properties(node, property_type):
     node_properties = ""
     for i in node.properties():
         node_properties += i
