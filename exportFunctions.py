@@ -6,7 +6,6 @@ from main import (png_name_dict,
                   change_plot_or_export, export_directory)
 import numpy as np
 
-
 # Remove all the files in all the subdirectories and files inside "Exports"
 def clear_exports():
     if os.path.exists("Exports"):
