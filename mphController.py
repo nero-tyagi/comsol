@@ -1,4 +1,4 @@
-from getFunctions import *
+from mphFunctions import *
 import os
 
 # Test whether the mph module is working
@@ -45,6 +45,8 @@ def mph_import(file, file_name):
 
 def mph_import_controller(files, display_node_tree = False):
     mphLoadedCorrectly = False
+    models = []
+    clients = []
     for file in files:
 
         print(file)
@@ -52,6 +54,8 @@ def mph_import_controller(files, display_node_tree = False):
 
         # Importing the mph file
         model, client = mph_import(file, file_name)
+        models.append(model)
+        clients.append(clients)
 
         # Checking if the client could be loaded properly
         if client is not None and model is not None:
@@ -72,3 +76,4 @@ def mph_import_controller(files, display_node_tree = False):
 
             model.save()
         mphLoadedCorrectly = False
+    return models, clients

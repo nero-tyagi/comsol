@@ -1,4 +1,4 @@
-from getFunctions import *
+from mphFunctions import *
 
 # Check the values returned by any get function
 def check_get_function(func, *args):
