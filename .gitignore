@@ -1,5 +1,6 @@
 .venv/
 .DS_Store
 .idea/
-input_files/
 __pycache__
+input_files/
+output_files/
