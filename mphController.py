@@ -74,6 +74,6 @@ def mph_import_controller(files, display_node_tree = False):
             if display_node_tree:
                 model_tree = mph.tree(model)
 
-            model.save()
+            # model.save()
         mphLoadedCorrectly = False
     return models, clients

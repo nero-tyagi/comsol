@@ -1,0 +1,72 @@
+Continuous Phase Velocity
+	Plot path: ('plots', 'Continuous Phase Velocity')
+	Plot tag: pg11
+	Plot type: PlotGroup2D
+
+	Velocity Magnitude, Continuous Phase
+		Plot path: ('plots', 'Continuous Phase Velocity', 'Velocity Magnitude, Continuous Phase')
+		Plot tag: surf1
+		Plot type: Surface
+
+Continuous Phase Streamlines
+	Plot path: ('plots', 'Continuous Phase Streamlines')
+	Plot tag: pg18
+	Plot type: PlotGroup2D
+
+	Velocity Magnitude, Continuous Phase
+		Plot path: ('plots', 'Continuous Phase Streamlines', 'Velocity Magnitude, Continuous Phase')
+		Plot tag: surf1
+		Plot type: Surface
+	Streamline - Continuous Phase
+		Plot path: ('plots', 'Continuous Phase Streamlines', 'Streamline - Continuous Phase')
+		Plot tag: str1
+		Plot type: Streamline
+
+Dispersed Phase Velocity
+	Plot path: ('plots', 'Dispersed Phase Velocity')
+	Plot tag: pg12
+	Plot type: PlotGroup2D
+
+	Velocity Magnitude, Continuous Phase
+		Plot path: ('plots', 'Dispersed Phase Velocity', 'Velocity Magnitude, Continuous Phase')
+		Plot tag: surf1
+		Plot type: Surface
+
+Velocity Difference (Ud - Uc), Arrow Surface
+	Plot path: ('plots', 'Velocity Difference (Ud - Uc), Arrow Surface')
+	Plot tag: pg15
+	Plot type: PlotGroup2D
+
+	Ud - Uc
+		Plot path: ('plots', 'Velocity Difference (Ud - Uc), Arrow Surface', 'Ud - Uc')
+		Plot tag: surf1
+		Plot type: Surface
+	Arrow Surface 1
+		Plot path: ('plots', 'Velocity Difference (Ud - Uc), Arrow Surface', 'Arrow Surface 1')
+		Plot tag: arws1
+		Plot type: ArrowSurface
+
+Continuous Phase Pressure
+	Plot path: ('plots', 'Continuous Phase Pressure')
+	Plot tag: pg17
+	Plot type: PlotGroup2D
+
+	Pressure Surface
+		Plot path: ('plots', 'Continuous Phase Pressure', 'Pressure Surface')
+		Plot tag: surf1
+		Plot type: Surface
+	Pressure Contour
+		Plot path: ('plots', 'Continuous Phase Pressure', 'Pressure Contour')
+		Plot tag: con1
+		Plot type: Contour
+
+Dispersed Phase Volume Fraction
+	Plot path: ('plots', 'Dispersed Phase Volume Fraction')
+	Plot tag: pg13
+	Plot type: PlotGroup2D
+
+	Volume Fraction
+		Plot path: ('plots', 'Dispersed Phase Volume Fraction', 'Volume Fraction')
+		Plot tag: surf1
+		Plot type: Surface
+

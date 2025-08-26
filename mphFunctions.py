@@ -53,13 +53,11 @@ def get_exports(model):
 def get_problems(model):
     return model.problems()
 
-def get_node_properties(node, property_type):
+def get_node_properties(node):
     node_properties = ""
     for i in node.properties():
         node_properties += i
         node_properties += (" = " + str(node.property(i)) +
                             "[" + str(type(node.property(i))) + "]")
         node_properties += "\n"
-
-    with open("node_properties_desc/" + property_type + "_node.txt", "w") as file:
-        file.write(node_properties)
+    return node_properties
