@@ -60,6 +60,7 @@ def get_node_properties(node):
         property = []
         property.append(i)
         property.append(node.property(i))
+        property.append(type(node.property(i)))
         node_properties_readable += i
         node_properties_readable += (" = " + str(node.property(i)) +
                             "[" + str(type(node.property(i))) + "]")

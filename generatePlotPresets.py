@@ -1,0 +1,43 @@
+from mphFunctions import get_node_properties
+import os
+
+def readAndExportPlotDescs(model):
+
+    plot_groups = [
+        model/'plots'/'Continuous Phase Velocity',
+        model/'plots'/'Dispersed Phase Velocity',
+        model/'plots'/'Pressure',
+        model/'plots'/'Streamlines (Uc)',
+        model/'plots'/'Separation Velocity (Ud - Uc), Arrow Surface',
+        model/'plots'/'Dispersed Phase Volume Fraction'
+    ]
+    messages = ""
+    for pg in plot_groups:
+        messages += (pg.name()
+                     + "\n\tPlot path: " + str(pg.path)
+                     + "\n\tPlot tag: " + str(pg.tag())
+                     + "\n\tPlot type: " + str(pg.type())
+                     + "\n")
+        properties, properties_readable = get_node_properties(pg)
+        with open("plot_presets/source_desc_values/" + pg.name() + ".txt", "w") as file:
+            file.write(str(properties))
+        with open("plot_presets/source_desc_values/" + "READABLE_" + pg.name() +".txt", "w") as file:
+            file.write(str(properties_readable))
+
+        plots = pg.children()
+        for plot in plots:
+            messages += ("\n\t" + plot.name()
+                         + "\n\t\tPlot path: " + str(plot.path)
+                         + "\n\t\tPlot tag: " + str(plot.tag())
+                         + "\n\t\tPlot type: " + str(plot.type()))
+            properties, properties_readable = get_node_properties(plot)
+            path = "plot_presets/source_desc_values/" + pg.name() + "/"
+            if not os.path.exists(path):
+                os.mkdir(path)
+            with open(path + plot.name() + ".txt", "w") as file:
+                file.write(str(properties))
+            with open(path + "READABLE_" + plot.name() + ".txt", "w") as file:
+                file.write(str(properties_readable))
+        messages += "\n\n"
+    with open("plot_presets/source_desc_values/log.txt", "w") as file:
+        file.write(messages)
