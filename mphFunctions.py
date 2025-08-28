@@ -54,10 +54,15 @@ def get_problems(model):
     return model.problems()
 
 def get_node_properties(node):
-    node_properties = ""
+    node_properties = []
+    node_properties_readable = ""
     for i in node.properties():
-        node_properties += i
-        node_properties += (" = " + str(node.property(i)) +
+        property = []
+        property.append(i)
+        property.append(node.property(i))
+        node_properties_readable += i
+        node_properties_readable += (" = " + str(node.property(i)) +
                             "[" + str(type(node.property(i))) + "]")
-        node_properties += "\n"
-    return node_properties
+        node_properties_readable += "\n"
+        node_properties.append(property)
+    return node_properties, node_properties_readable
