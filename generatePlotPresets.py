@@ -1,5 +1,6 @@
 from mphFunctions import get_node_properties
 import os
+from constants import *
 
 def readAndExportPlotDescs(model):
 
@@ -19,9 +20,9 @@ def readAndExportPlotDescs(model):
                      + "\n\tPlot type: " + str(pg.type())
                      + "\n")
         properties, properties_readable = get_node_properties(pg)
-        with open("plot_presets/source_desc_values/" + pg.name() + ".txt", "w") as file:
+        with open(new_presets_folder + pg.name() + ".txt", "w") as file:
             file.write(str(properties))
-        with open("plot_presets/source_desc_values/" + "READABLE_" + pg.name() +".txt", "w") as file:
+        with open(new_presets_folder + "READABLE_" + pg.name() + ".txt", "w") as file:
             file.write(str(properties_readable))
 
         plots = pg.children()
@@ -31,7 +32,7 @@ def readAndExportPlotDescs(model):
                          + "\n\t\tPlot tag: " + str(plot.tag())
                          + "\n\t\tPlot type: " + str(plot.type()))
             properties, properties_readable = get_node_properties(plot)
-            path = "plot_presets/source_desc_values/" + pg.name() + "/"
+            path = new_presets_folder + pg.name() + "/"
             if not os.path.exists(path):
                 os.mkdir(path)
             with open(path + plot.name() + ".txt", "w") as file:
@@ -51,5 +52,5 @@ def readAndExportPlotDescs(model):
                         file.write(str(properties_readable))
 
         messages += "\n\n"
-    with open("plot_presets/source_desc_values/log.txt", "w") as file:
+    with open(new_presets_folder + "log.txt", "w") as file:
         file.write(messages)

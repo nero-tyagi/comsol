@@ -17,37 +17,6 @@ preset_plots = {
 # Generates a plot group, populates it with plots, changes all properties to preset properties, and handles exceptions
 def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset=''):
 
-    pg_ignore_list = [
-        'data',
-        'looplevel',
-        'outersolnum',
-        'outertype',
-        'solnum',
-        'solrepresentation',
-        'solutionparams',
-        'title'
-    ]
-
-    plot_ignore_list = [
-        'actuallevels',
-        'actuallevelslegend',
-        'labels',
-        'outersolnum',
-        'outertype',
-        'plotinfo',
-        'rangeactualminmax',
-        'rangecolormax',
-        'rangecolormin',
-        'rangedatamax',
-        'rangedatamin',
-        'rangeminpositive',
-        'rangeunit',
-        'rowindex',
-        'solnum',
-        'title',
-        'unit',
-    ]
-
     print("Working on model " + str(model.name())+  "\n")
 
     if overwritePlots:
