@@ -67,3 +67,8 @@ def get_node_properties(node):
         node_properties_readable += "\n"
         node_properties.append(property)
     return node_properties, node_properties_readable
+
+def clearPlotGroups(model):
+    pg_nodes = model/'plots'
+    for node in pg_nodes:
+        node.remove()

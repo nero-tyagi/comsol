@@ -38,6 +38,18 @@ def readAndExportPlotDescs(model):
                 file.write(str(properties))
             with open(path + "READABLE_" + plot.name() + ".txt", "w") as file:
                 file.write(str(properties_readable))
+
+            # Generating Color Expression for streamline node
+            if 'streamline' in plot.name().lower():
+                streamline_node = model/'plots'/pg.name()/plot.name()
+                if streamline_node.children()[0]:
+                    color_node = streamline_node.children()[0]
+                    properties, properties_readable = get_node_properties(color_node)
+                    with open(path + 'Color.txt', "w") as file:
+                        file.write(str(properties))
+                    with open(path + "READABLE_Color.txt", "w") as file:
+                        file.write(str(properties_readable))
+
         messages += "\n\n"
     with open("plot_presets/source_desc_values/log.txt", "w") as file:
         file.write(messages)
