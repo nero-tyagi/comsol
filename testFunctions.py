@@ -8,9 +8,10 @@ from newPlot import *
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 path = os.environ["DYLD_LIBRARY_PATH"]
 
-mph_files = ['input_files/BWRD.mph']
+mph_files = ['input_files/BWRD-small_data.mph']
 
 models, clients = mph_import_controller(mph_files, False)
 
-readAndExportPlotDescs(models)
+# readAndExportPlotDescs(models)
 continuous_phase_velocity(models[0])
+
