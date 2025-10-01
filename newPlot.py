@@ -87,13 +87,13 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
     # Setting preset values, ignoring those in the ignore list
     print("Setting plot group preset values...")
     for property in pg_presets:
-        if property not in pg_ignore_list:
+        if property not in PG_IGNORE_LIST:
             try:
                 new_plot_group_node.property(property, pg_presets.get(property))
             except Exception as e:
                 print("Could not assign property " + str(property))
                 print("Property value:" + str(pg_presets.get(property)))
-                raise e
+                # raise e
 
     # Getting plot preset values and setting them to the new plots, ignoring those in the ignore list
     for node in plot_nodes:
@@ -103,13 +103,16 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
 
         print("Setting preset values for plot: " + node.name())
         for property in plot_presets:
-            if property not in plot_ignore_list:
+            if property not in PLOT_IGNORE_LIST:
                 try:
+                    if property == "solnum":
+                        print("solnum value:")
+                        print(new_plot_group_node.property(property))
                     node.property(property, plot_presets.get(property))
                 except Exception as e:
                     print("Could not assign property " + str(property))
                     print("Property value:" + str(plot_presets.get(property)))
-                    raise e
+                    # raise e
 
         # Handling excpetions:
 
@@ -133,13 +136,13 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
             color_presets = read_presets(
                 file="plot_presets/source_desc_values/" + pg_name + "/Color.txt")
             for property in color_presets:
-                if property not in plot_ignore_list:
+                if property not in PLOT_IGNORE_LIST:
                     try:
                         color_node.property(property, color_presets.get(property))
                     except Exception as e:
                         print("Could not assign property " + str(property))
                         print("Property value:" + str(color_presets.get(property)))
-                        raise e
+                        # raise e
             color_node.property('colortable', color_presets.get('colortable'))
         else:
             node.property('colortable', plot_presets.get('colortable'))
@@ -212,12 +215,24 @@ def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
         # Clearing all pre-existing plots
         if clearPlots:
             clearPlotGroups(model)
-        # Selecting the last available dataset node to give to plot groups
+        # Selecting the last available solution or parametric solution
+        # dataset node to give to plot groups
         dsets = get_datasets(model)
         dset_tag = ''
         if dsets != []:
-            dset_node = model / 'datasets' / model.datasets()[-1]
-            dset_tag = dset_node.tag()
+            print(dsets)
+            dset_node = ''
+            i = -1
+            while dset_tag == '':
+                dset_node = model / 'datasets' / model.datasets()[i]
+                print("Dataset node:")
+                print(dset_node)
+                current_dset = dsets[i]
+                current_dset = current_dset.lower()
+                if 'solution' in current_dset:
+                    dset_tag = dset_node.tag()
+                else:
+                    i -= 1
         for plot in plots:
             generate_pg(model, overwritePlots, pg_name=preset_plots.get(plot), dset=dset_tag)
 
@@ -239,5 +254,5 @@ def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False):
 # Run this file using a Pycharm configuration to generate all the default plots.
 #WARNING: The following code overwrites the default plots.
 
-models, clients = mph_import_controller(mph_files, False)
+models, clients = mph_import_controller(MPH_FILES, False)
 generate_default_pgs(models, overwritePlots=True)

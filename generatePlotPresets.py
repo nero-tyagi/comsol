@@ -15,7 +15,7 @@ def readAndExportPlotDescs(model):
     messages = ""
     for pg in plot_groups:
         messages += (pg.name()
-                     + "\n\tPlot path: " + str(pg.path)
+                     + "\n\tPlot path: " + str(pg.PATH)
                      + "\n\tPlot tag: " + str(pg.tag())
                      + "\n\tPlot type: " + str(pg.type())
                      + "\n")
@@ -28,7 +28,7 @@ def readAndExportPlotDescs(model):
         plots = pg.children()
         for plot in plots:
             messages += ("\n\t" + plot.name()
-                         + "\n\t\tPlot path: " + str(plot.path)
+                         + "\n\t\tPlot path: " + str(plot.PATH)
                          + "\n\t\tPlot tag: " + str(plot.tag())
                          + "\n\t\tPlot type: " + str(plot.type()))
             properties, properties_readable = get_node_properties(plot)
