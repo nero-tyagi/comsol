@@ -42,44 +42,6 @@ def batch_export_Uc_plots(model, model_name_array, export_nodes, input_solution=
             plot_node.property('outersolnum', sol_i)
             model_name = model_name_array[0]
             export_Uc_plot(model, node, plot_node, export_node, sol, sol_i, model_name)
-
-
-            # if str(node) in change_plot_or_export:
-            #     if change_plot_or_export.get(str(node)) == 'export':
-            #         plot_node = model / 'export' / str(node)
-            #     elif change_plot_or_export.get(str(node)) == 'plot':
-            #
-            # print(plot_node)
-            #
-            # # print("plot_node_properties before change: ")
-            # # for node_property in plot_node.properties().items():
-            # #     print(node_property)
-            #
-            # if export_outer_sol_required.get(node):
-            #     solnum = (solution_tags.get('Parametric Solutions 1'))[-1]
-            #     # for x in plot_node.properties():
-            #     #     print(str(x))
-            #     # if change_plot_or_export.get(str(node)) == 'plot':
-            #     #         plot_node.property('solnum', solnum)
-            #
-            # # print("plot_node_properties after change: ")
-            # # for node_property in plot_node.properties().items():
-            # #     print(node_property)
-            #
-            # print("\nExporting node: " + node)
-            # export_node = model / 'exports' / node
-            #
-            # # Setting the outer solution number and the name of the file
-            # if EXPORT_OUTER_SOL_REQUIRED.get(node):
-            #     print("Changing solnum")
-            #     if change_plot_or_export.get(str(node)) == 'plot':
-            #         plot_node.property('outersolnum', sol_i)
-            #     elif change_plot_or_export.get(str(node)) == 'export':
-            #         plot_node.property('outersolnumindices', [sol_i])
-            #
-            # model_name = model_name_array[0]
-            #
-            # export_Uc_plot(model, node, plot_node, export_node, sol, sol_i, model_name)
         sol_i = sol_i + 1
 
 # Export Uc plots
@@ -92,10 +54,6 @@ def export_Uc_plot(model, node, plot_node, export_node, sol, sol_count, model_na
     sol_name = sol.name()
     if node in PNG_NAME_DICT:
         file_name = PNG_NAME_DICT.get(node)
-    # elif node in data_name_dict:
-    #     file_name = data_name_dict.get(node)
-    # else:
-    #     file_name = "unknown"
     export_directory_i = EXPORT_DIRECTORY + model_name + "- "+ sol_name
     if not os.path.exists(export_directory_i):
         os.mkdir(export_directory_i)
@@ -108,12 +66,7 @@ def export_Uc_plot(model, node, plot_node, export_node, sol, sol_count, model_na
         if node in PNG_NAME_DICT:
             model.export(export_node, file=export_file_name)
             print("Exported: " + export_file_name)
-        # elif node in data_name_dict:
-        #     model.export(export_node, file=export_file_name)
-        #     print("Exported: " + export_file_name)
 
     except:
         if node in PNG_NAME_DICT:
-            print("Exported: " + export_file_name)
-        # elif node in data_name_dict:
-        #     print("Exported: " + export_file_name)
+            print("Could not export: " + export_file_name)
