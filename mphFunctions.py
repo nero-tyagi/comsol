@@ -39,7 +39,7 @@ def get_solutions(model):
 
 # Returns all the solutions present inside the model
 def get_datasets(model):
-    return model.datasets()
+    return model.solutions()
 
 # Returns all the solutions present inside the model
 def get_plots(model):

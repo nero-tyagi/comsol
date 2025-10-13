@@ -6,10 +6,44 @@ import os
 MPH_FILES = [
     # 'input_files/SD-INLCN.mph',
     # 'input_files/DMND001.mph',
-    'input_files/NACA4412.mph',
-    # 'input_files/NACA4412PR1.mph',
+    # 'input_files/NACA4412.mph',
+    'input_files/NACA4412PR1.mph',
     # 'input_files/BWRD.mph'
 ]
+
+EXPORT_DICT = {
+    1: "Continuous Phase Velocity",
+    2: "Dispersed Phase Velocity",
+    3: "Pressure",
+    4: "Streamlines (Uc)",
+    5: 'Separation Velocity (Ud - Uc), Arrow Surface',
+    6: 'Dispersed Phase Volume Fraction',
+    7: "Continuous Phase - Vorticity",
+    8: 'Streamline Comparison',
+    9: 'Velocity Difference',
+    10: 'Volume Fraction and Difference Streamlines',
+    11: 'Volume Fraction and Particle Streamlines'
+}
+
+EXPORT_PLOT_NODES = [EXPORT_DICT[1], EXPORT_DICT[2], EXPORT_DICT[3],
+                     EXPORT_DICT[4], EXPORT_DICT[5], EXPORT_DICT[6]]
+
+PNG_NAME_DICT = {
+    'Continuous Phase Velocity': 'Uc',
+    'Dispersed Phase Velocity': 'Ud',
+    'Pressure': 'P',
+    'Streamlines (Uc)': 'Uc, streamlines',
+    'Separation Velocity (Ud - Uc), Arrow Surface': 'Ud-Uc, arrows',
+    'Dispersed Phase Volume Fraction': 'phi',
+}
+
+EXPORT_OUTER_SOL_REQUIRED = {
+
+}
+
+EXPORT_DIRECTORY = "Exports/"
+
+DISPLAY_NODE_TREE = False
 
 # Defining directories
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"

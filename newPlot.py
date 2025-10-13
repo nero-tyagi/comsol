@@ -224,7 +224,7 @@ def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
             dset_node = ''
             i = -1
             while dset_tag == '':
-                dset_node = model / 'datasets' / model.datasets()[i]
+                dset_node = model / 'datasets' / model.solutions()[i]
                 print("Dataset node:")
                 print(dset_node)
                 current_dset = dsets[i]
@@ -246,7 +246,7 @@ def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False):
         dsets = get_datasets(model)
         dset_tag = ''
         if dsets != []:
-            dset_node = model / 'datasets' / model.datasets()[-1]
+            dset_node = model / 'datasets' / model.solutions()[-1]
             dset_tag = dset_node.tag()
         for pg in pgs:
             generate_pg(model, overwritePlots, pg_name=preset_plots.get(pg), dset=dset_tag)

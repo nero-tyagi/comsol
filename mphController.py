@@ -43,12 +43,13 @@ def mph_import(file, file_name):
 # If the function can't find the input files, please check the directory and filenames in
 # main.py. Also, confirm that the file you hope to import has the extension ".mph".
 
-def mph_import_controller(files, display_node_tree = False):
+def mph_import_controller(file_paths, display_node_tree = False):
     mphLoadedCorrectly = False
     models = []
     clients = []
-    for file in files:
-
+    datasets = []
+    solutions = []
+    for file in file_paths:
         print(file)
         file_name = os.path.basename(file)
 
@@ -66,9 +67,11 @@ def mph_import_controller(files, display_node_tree = False):
             print("Model couldn't be loaded")
 
         if mphLoadedCorrectly:
-            datasets = get_datasets(model)
-            print("\nDatasets available: ")
-            for set in datasets:
+            datasets.append(get_datasets(model))
+            solutions.append(get_solutions(model))
+
+            print("\nSolutions available: ")
+            for set in solutions:
                 print(str(set))
             print()
             if display_node_tree:
@@ -76,4 +79,4 @@ def mph_import_controller(files, display_node_tree = False):
 
             # model.save()
         mphLoadedCorrectly = False
-    return models, clients
+    return models, clients, datasets
