@@ -250,9 +250,3 @@ def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False):
             dset_tag = dset_node.tag()
         for pg in pgs:
             generate_pg(model, overwritePlots, pg_name=preset_plots.get(pg), dset=dset_tag)
-
-# Run this file using a Pycharm configuration to generate all the default plots.
-#WARNING: The following code overwrites the default plots.
-
-models, clients = mph_import_controller(MPH_FILES, False)
-generate_default_pgs(models, overwritePlots=True)
