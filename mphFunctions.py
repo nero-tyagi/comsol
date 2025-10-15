@@ -72,3 +72,8 @@ def clearPlotGroups(model):
     pg_nodes = model/'plots'
     for node in pg_nodes:
         node.remove()
+
+def clearExportNodes(model):
+    export_nodes = model/'exports'
+    for node in export_nodes:
+        node.remove()

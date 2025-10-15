@@ -1,7 +1,6 @@
 import re
 import numpy as np
-from mphFunctions import get_datasets, clearPlotGroups
-from mphController import mph_import_controller
+from mphFunctions import get_datasets, clearPlotGroups, clearExportNodes
 from constants import *
 
 # Use this list to pass an array of a combination of these numbers to generate plots
@@ -162,6 +161,72 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
     # Saving the model
     model.save()
 
+
+# Generates a plot group, populates it with plots, changes all properties to preset properties, and handles exceptions
+def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Velocity", view='view1'):
+    print("Generating export nodes in model " + str(model.name()) + "\n")
+
+    if overwriteNodes:
+
+        # Checking to see if the export node title already exists and deleting it if it does.
+        existing_export_nodes = model.exports()
+        if pg_name in existing_export_nodes:
+            temp_node = model / 'exports' / pg_name
+            try:
+                temp_node.remove()
+            except Exception as e:
+                print("Could not delete export node " + pg_name)
+                raise e
+        node_title = pg_name
+
+    else:
+
+        # Checking to see if the export node title already exists and appending a number if so.
+        node_title = pg_name
+        existing_export_nodes = model.exports()
+        print("\nExisting export nodes:")
+        print(existing_export_nodes)
+        i = 1
+        name_acquired = False
+        while not name_acquired:
+            if node_title in existing_export_nodes:
+                node_title = pg_name + " " + str(i)
+            else:
+                name_acquired = True
+                print("Final export node name: " + node_title)
+            i += 1
+
+    # Generating the plot and the subplot
+    exports_node = model / 'exports'
+    exports_node.create("Image", name=node_title)
+    new_export_node = model / 'exports' / node_title
+    print("Generated export node: " + str(new_export_node))
+
+    # Getting export node preset values
+    print("Reading export node preset values...")
+    pg_presets = read_presets(
+        file="plot_presets/exports/exports.txt")
+
+    # Setting preset values, ignoring those in the ignore list
+    print("Setting export node preset values...")
+    for property in pg_presets:
+        if property not in EXPORT_IGNORE_LIST:
+            try:
+                new_export_node.property(property, pg_presets.get(property))
+            except Exception as e:
+                print("Could not assign property " + str(property))
+                print("Property value:" + str(pg_presets.get(property)))
+                # raise e
+    print("\n")
+
+    source_node = model/'plots'/pg_name
+    new_export_node.property('pngfilename', 'NOPATH.png')
+    new_export_node.property('view', view)
+    new_export_node.property('sourceobject', source_node.tag())
+
+    # Saving the model
+    model.save()
+
 # Reads the preset files and create a dictionary of preset properties
 def read_presets(file):
     presets = {}
@@ -235,8 +300,9 @@ def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
                     i -= 1
         for plot in plots:
             generate_pg(model, overwritePlots, pg_name=preset_plots.get(plot), dset=dset_tag)
+            generate_export_node(model, True, pg_name=preset_plots.get(plot), view='view1')
 
-def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False):
+def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False, overwriteNodes=False):
     for model in models:
 
         # Clearing all pre-existing plots
@@ -250,3 +316,4 @@ def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False):
             dset_tag = dset_node.tag()
         for pg in pgs:
             generate_pg(model, overwritePlots, pg_name=preset_plots.get(pg), dset=dset_tag)
+            generate_export_node(model, overwriteNodes, pg_name=preset_plots.get(pg), view='view1')

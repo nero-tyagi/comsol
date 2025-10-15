@@ -43,7 +43,7 @@ def mph_import(file, file_name):
 # If the function can't find the input files, please check the directory and filenames in
 # main.py. Also, confirm that the file you hope to import has the extension ".mph".
 
-def mph_import_controller(file_paths, display_node_tree = False):
+def controller (file_paths, display_node_tree = False):
     mphLoadedCorrectly = False
     models = []
     clients = []

@@ -1,55 +1,13 @@
 import os
-
-### General COMSOL data
-
-# COMSOL files
-MPH_FILES = [
-    # 'input_files/SD-INLCN.mph',
-    # 'input_files/DMND001.mph',
-    # 'input_files/NACA4412.mph',
-    'input_files/NACA4412PR1.mph',
-    # 'input_files/BWRD.mph'
-]
-
-EXPORT_DICT = {
-    1: "Continuous Phase Velocity",
-    2: "Dispersed Phase Velocity",
-    3: "Pressure",
-    4: "Streamlines (Uc)",
-    5: 'Separation Velocity (Ud - Uc), Arrow Surface',
-    6: 'Dispersed Phase Volume Fraction',
-    7: "Continuous Phase - Vorticity",
-    8: 'Streamline Comparison',
-    9: 'Velocity Difference',
-    10: 'Volume Fraction and Difference Streamlines',
-    11: 'Volume Fraction and Particle Streamlines'
-}
-
-EXPORT_PLOT_NODES = [EXPORT_DICT[1], EXPORT_DICT[2], EXPORT_DICT[3],
-                     EXPORT_DICT[4], EXPORT_DICT[5], EXPORT_DICT[6]]
-
-PNG_NAME_DICT = {
-    'Continuous Phase Velocity': 'Uc',
-    'Dispersed Phase Velocity': 'Ud',
-    'Pressure': 'P',
-    'Streamlines (Uc)': 'Uc, streamlines',
-    'Separation Velocity (Ud - Uc), Arrow Surface': 'Ud-Uc, arrows',
-    'Dispersed Phase Volume Fraction': 'phi',
-}
-
-EXPORT_OUTER_SOL_REQUIRED = {
-
-}
-
-EXPORT_DIRECTORY = "Exports/"
-
-DISPLAY_NODE_TREE = False
+from ctypes.wintypes import DOUBLE
 
 # Defining directories
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
+PRESETS_FOLDER = "new_plot_presets/"
+EXPORT_DIRECTORY = "Exports/"
 
-### Producing plots with prests
+### Producing plots with presets
 
 # Presets folder
 if not os.path.exists("new_plot_presets/"):
@@ -65,7 +23,37 @@ if not os.path.exists("new_plot_presets/"):
     except Exception as e:
         print("Could not create new plot presets directory")
         raise e
-new_presets_folder = "new_plot_presets/source_desc_values/"
+
+## Dictionaries
+
+# COMSOL files
+MPH_FILES = [
+    'input_files/SD-INLCN.mph',
+    # 'input_files/DMND001.mph',
+    # 'input_files/NACA4412.mph',
+    # 'input_files/NACA4412PR1.mph',
+    # 'input_files/BWRD.mph'
+]
+
+EXPORT_DICT = {
+    1: "Continuous Phase Velocity",
+    2: "Dispersed Phase Velocity",
+    3: "Pressure",
+    4: "Streamlines (Uc)",
+    5: 'Separation Velocity (Ud - Uc), Arrow Surface',
+    6: 'Dispersed Phase Volume Fraction',
+    7: "Continuous Phase - Vorticity",
+    8: 'Streamline Comparison',
+}
+
+PNG_NAME_DICT = {
+    'Continuous Phase Velocity': 'Uc',
+    'Dispersed Phase Velocity': 'Ud',
+    'Pressure': 'P',
+    'Streamlines (Uc)': 'Uc, streamlines',
+    'Separation Velocity (Ud - Uc), Arrow Surface': 'Ud-Uc, arrows',
+    'Dispersed Phase Volume Fraction': 'phi',
+}
 
 # Preset ignore lists
 PG_IGNORE_LIST = [
@@ -96,11 +84,47 @@ PLOT_IGNORE_LIST = [
     'rowindex',
     'solnum',
     'title',
-    'unit',
+    'unit'
 ]
+
+EXPORT_IGNORE_LIST = [
+    'epsfilename',
+    'heightexact',
+    'jpegfilename',
+    'lastwrittenfile'
+    'sizedesc',
+    'tifffilename'
+]
+
+EXPORT_PRESET_1M = {
+    'aspectratio': float(1.0),
+    'background': 'color',
+    'colortheme': 'ClassicDark',
+    'fontsize': int(20),
+    'height': float(1000.0),
+    'heightmultiple': int(1),
+    'heightpx': int(1000),
+    'qualitylevel': int(100),
+    'resolution': int(96),
+    'showgrid': True,
+    'sourcetype': 'plotgroup',
+    'width': float(1000.0),
+    'widthpx': float(1000.0)
+}
 
 ### Difference contours data
 
 # Array of all the files that need to be exported.
 MINUENDS = ["dataset1.txt", "dataset1 copy.txt"]
 SUBTRAHENDS = ["dataset2.txt"]
+
+### Other constants
+
+EXPORT_PLOT_NODES = [EXPORT_DICT[1], EXPORT_DICT[2], EXPORT_DICT[3],
+                     EXPORT_DICT[4], EXPORT_DICT[5], EXPORT_DICT[6]]
+
+EXPORT_OUTER_SOL_REQUIRED = {
+
+}
+
+DISPLAY_NODE_TREE = False
