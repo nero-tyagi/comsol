@@ -28,11 +28,14 @@ if not os.path.exists("new_plot_presets/"):
 
 # COMSOL files
 MPH_FILES = [
-    # 'input_files/SD-INLCN.mph',
-    # 'input_files/DMND001.mph',
-    # 'input_files/NACA4412.mph',
-    'input_files/NACA4412PR1.mph',
-    # 'input_files/BWRD.mph'
+    'input_files/SDPR2.mph',
+    # 'input_files/SDPR3-1.mph',
+    # 'input_files/SDPR3-2.mph',
+    # 'input_files/SDPR3-3.mph',
+    # 'input_files/SDPR3-4.mph',
+    # 'input_files/SDPR3-5.mph',
+    # 'input_files/SDPR3-6.mph',
+    # 'input_files/SDPR4.mph',
 ]
 
 EXPORT_DICT = {

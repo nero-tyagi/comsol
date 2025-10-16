@@ -1,5 +1,11 @@
 import re
 import numpy as np
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from mphFunctions import get_datasets, clearPlotGroups, clearExportNodes
 from constants import *
 

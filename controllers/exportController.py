@@ -1,4 +1,4 @@
-from mphController import controller
+from controllers.mphController import controller
 from constants import MPH_FILES, DISPLAY_NODE_TREE, EXPORT_PLOT_NODES
 from exportFunctions import batch_export_Uc_plots
 
