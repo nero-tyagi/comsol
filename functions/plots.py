@@ -1,13 +1,8 @@
-import re
-import numpy as np
-import sys
-from pathlib import Path
-
-# Add parent directory to sys.path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
-from mphFunctions import get_datasets, clearPlotGroups, clearExportNodes
+from functions.presets import read_presets
+from functions.mph import get_datasets, clearPlotGroups
 from constants import *
+from constants import (PNG_NAME_DICT,
+                       EXPORT_DIRECTORY)
 
 # Use this list to pass an array of a combination of these numbers to generate plots
 preset_plots = {
@@ -87,7 +82,7 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
     # Getting plot group preset values
     print("Reading plot group preset values...")
     pg_presets = read_presets(
-        file="plot_presets/source_desc_values/" + pg_name + ".txt")
+        file=PRESETS_FOLDER + "/plots/" + pg_name + ".txt")
 
     # Setting preset values, ignoring those in the ignore list
     print("Setting plot group preset values...")
@@ -104,7 +99,7 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
     for node in plot_nodes:
         print("Reading preset values for plot: " + node.name())
         plot_presets = read_presets(
-            file="plot_presets/source_desc_values/" + pg_name + "/" + node.name() + ".txt")
+            file=PRESETS_FOLDER + "plots/" + pg_name + "/" + node.name() + ".txt")
 
         print("Setting preset values for plot: " + node.name())
         for property in plot_presets:
@@ -139,7 +134,7 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
             # Setting Color Expression preset values
             print("Setting color expression values")
             color_presets = read_presets(
-                file="plot_presets/source_desc_values/" + pg_name + "/Color.txt")
+                file=PRESETS_FOLDER + "plots/" + pg_name + "/Color.txt")
             for property in color_presets:
                 if property not in PLOT_IGNORE_LIST:
                     try:
@@ -211,7 +206,7 @@ def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Veloci
     # Getting export node preset values
     print("Reading export node preset values...")
     pg_presets = read_presets(
-        file="plot_presets/exports/exports.txt")
+        file=PRESETS_FOLDER + "/exports/exports.txt")
 
     # Setting preset values, ignoring those in the ignore list
     print("Setting export node preset values...")
@@ -232,50 +227,6 @@ def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Veloci
 
     # Saving the model
     model.save()
-
-# Reads the preset files and create a dictionary of preset properties
-def read_presets(file):
-    presets = {}
-
-    with open(file, 'r') as f:
-        content = f.read()
-
-    # Matches each triple: ['key', value, dtype]
-    pattern = re.compile(r"\['(.*?)',\s*(.*?),\s*<(.*?)>\]")
-    matches = pattern.findall(content)
-
-    for key, value_str, dtype_str in matches:
-        dtype_str = dtype_str.strip()
-        value_str = value_str.strip()
-
-        if "bool" in dtype_str:
-            value = value_str == "True"
-        elif "int" in dtype_str:
-            value = int(value_str)
-        elif "float" in dtype_str or "JDouble" in dtype_str:
-            value = float(value_str)
-        elif "NoneType" in dtype_str:
-            value = None
-        elif "str" in dtype_str:
-            value = value_str.strip("'\"")
-        elif "list" in dtype_str:
-            value = eval(value_str)  # safe for simple lists
-        elif "numpy.ndarray" in dtype_str:
-            # Handle empty arrays
-            if value_str.startswith("array([]"):
-                value = np.array([])
-            else:
-                # Extract contents inside array([...])
-                arr_contents = re.search(r"array\((.*)\)", value_str).group(1)
-                # Remove dtype=... if present
-                arr_contents = re.sub(r",\s*dtype=.*", "", arr_contents)
-                value = np.array(eval(arr_contents))
-        else:
-            value = value_str
-
-        presets[key] = value
-
-    return presets
 
 # Generates all the default plot groups using the existing presets
 def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
@@ -323,3 +274,63 @@ def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False, overwriteN
         for pg in pgs:
             generate_pg(model, overwritePlots, pg_name=preset_plots.get(pg), dset=dset_tag)
             generate_export_node(model, overwriteNodes, pg_name=preset_plots.get(pg), view='view1')
+
+def batch_export_pgs(model, solution_node, model_name_array, export_nodes):
+
+    # Using the given node to identify the outer solutions
+    outer_solutions = solution_node.children()
+
+    if not outer_solutions:
+        # If no outer solutions are found, please make sure that the study actually has
+        # all the results you expect.
+        print("\nNo solutions found. No plots exported.")
+    else:
+        print("\nOuter solutions found. " + str(outer_solutions))
+
+    # Finding the dataset that the solution node belongs to in order to assign it
+    # to the pg
+    dsets = model.datasets()
+    dset = ""
+    name = str(solution_node).split('/', 1)[1]
+    for set in dsets:
+        if name in set:
+            dset = set
+    dset_node = model / 'datasets' / dset
+    dset = dset_node.tag()
+
+    # Batch exporting the plots:
+    sol_i = 1 # starting solution count
+    for sol in outer_solutions:
+
+        for node in export_nodes:
+            plot_node = model / 'plots' / str(node)
+            export_node = model / 'exports' / node
+            plot_node.property('data', str(dset))
+            plot_node.property('outersolnum', str(sol_i))
+            model_name = model_name_array[0]
+            export_2D_PG(model, node, plot_node, export_node, sol, sol_i, model_name)
+        sol_i = sol_i + 1
+
+# Export Uc plots
+def export_2D_PG(model, node, plot_node, export_node, sol, sol_i, model_name):
+
+    # Initializing variables for the name of the png
+    sol_name = sol.name()
+    if node in PNG_NAME_DICT:
+        file_name = PNG_NAME_DICT.get(node)
+    export_directory_i = (EXPORT_DIRECTORY + model_name +
+                          " - " + str(sol_i) + " [" + sol_name) + "]"
+    export_file_name = export_directory_i + '/' + file_name
+    if node in PNG_NAME_DICT:
+        export_file_name += ".png"
+
+    print("Exporting node \"" + str(node) + "\" as " + export_file_name)
+    try:
+        if node in PNG_NAME_DICT:
+            model.export(export_node, file=export_file_name)
+            print("Exported: " + export_file_name)
+        else:
+            print("Couldn't find a suitable name for this plot group.")
+    except Exception as e:
+        print("Could not export: " + export_file_name)
+        print(e)

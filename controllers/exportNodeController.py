@@ -1,6 +1,6 @@
 from controllers.mphController import controller
 from constants import MPH_FILES
-from plotFuncs import generate_export_node, preset_plots
+from functions.plots import generate_export_node, preset_plots
 
 models, clients, datasets = controller(MPH_FILES, False)
 plots = [1, 2, 3, 4, 5, 6]

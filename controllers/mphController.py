@@ -1,10 +1,11 @@
 import sys
 from pathlib import Path
+import mph
 
 # Add parent directory to sys.path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from mphFunctions import *
+from functions.mph import *
 import os
 
 # Test whether the mph module is working

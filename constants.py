@@ -1,13 +1,10 @@
 import os
-from ctypes.wintypes import DOUBLE
 
 # Defining directories
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
-PRESETS_FOLDER = "new_plot_presets/"
+PRESETS_FOLDER = "presets_files/"
 EXPORT_DIRECTORY = "Exports/"
-
-### Producing plots with presets
 
 # Presets folder
 if not os.path.exists("new_plot_presets/"):

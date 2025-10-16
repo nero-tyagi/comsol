@@ -1,9 +1,16 @@
 from controllers.mphController import controller
 from constants import MPH_FILES, DISPLAY_NODE_TREE, EXPORT_PLOT_NODES
-from exportFunctions import batch_export_Uc_plots
+from functions.plots import batch_export_pgs
+from os.path import exists as EXISTS
+from shutil import rmtree as RMTREE
 
 models, clients, solutions = controller(MPH_FILES, DISPLAY_NODE_TREE)
 print(models)
+
+# Remove all the files in all the subdirectories and files inside "Exports"
+def clear_exports():
+    if EXISTS("Exports"):
+        RMTREE("Exports")
 
 for im, model in enumerate(models):
     current_solutions = solutions[im]
@@ -26,7 +33,7 @@ for im, model in enumerate(models):
                 print("Wrong input. Please choose again.")
         node = model / 'solutions' / current_solutions[selected_solution]
         print("Solution node selected: " + str(node))
-        batch_export_Uc_plots(model,
+        batch_export_pgs(model,
                               node,
                               [nomenclature, '001'],
                               EXPORT_PLOT_NODES)

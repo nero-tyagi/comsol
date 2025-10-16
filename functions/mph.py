@@ -1,5 +1,3 @@
-import mph
-
 # Returns the names of all the clients open in memory
 def get_client_names(client):
     return client.names()
