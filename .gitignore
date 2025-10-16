@@ -8,4 +8,5 @@ output_files/
 .idea/dictionaries/
 .idea/httpRequests
 .idea/shelf
-Exports/
+/Exports/
+!*/exports/
