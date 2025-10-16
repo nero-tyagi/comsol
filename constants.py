@@ -4,7 +4,7 @@ import os
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
 PRESETS_FOLDER = "presets_files/"
-EXPORT_DIRECTORY = "Exports/"
+EXPORT_DIRECTORY = "input_files/Exports/"
 
 # Presets folder
 if not os.path.exists("new_plot_presets/"):

@@ -275,7 +275,8 @@ def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False, overwriteN
             generate_pg(model, overwritePlots, pg_name=preset_plots.get(pg), dset=dset_tag)
             generate_export_node(model, overwriteNodes, pg_name=preset_plots.get(pg), view='view1')
 
-def batch_export_pgs(model, solution_node, model_name_array, export_nodes):
+def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
+                     export_nodes):
 
     # Using the given node to identify the outer solutions
     outer_solutions = solution_node.children()
@@ -298,8 +299,29 @@ def batch_export_pgs(model, solution_node, model_name_array, export_nodes):
     dset_node = model / 'datasets' / dset
     dset = dset_node.tag()
 
-    # Batch exporting the plots:
-    sol_i = 1 # starting solution count
+    ## Batch exporting the plots:
+
+    # Overwrite mode - If not overwriting files, first we need to find the last
+    # solution number that already exists in the folder for the current model
+    # name
+    sol_name_i = 1 # starting solution count
+    if not overwrite_mode:
+        files = os.listdir(EXPORT_DIRECTORY)
+        print(files)
+        #Separating the files that contain only the current model's name
+        files = [x for x in files if model_name in x]
+        print("Cleaned list of files: ")
+        print(files)
+        max_int = 1
+        for file in files:
+            #WARNING: This is sensitive to how the folders are named.
+            latter_part = str(file).split(model_name + " - ", 1)[1]
+            print("latter_part: " + latter_part)
+            if max_int < int(latter_part[0]):
+                max_int = int(latter_part[0])
+        print(max_int)
+        sol_name_i = max_int + 1
+    sol_i = 1
     for sol in outer_solutions:
 
         for node in export_nodes:
@@ -307,19 +329,23 @@ def batch_export_pgs(model, solution_node, model_name_array, export_nodes):
             export_node = model / 'exports' / node
             plot_node.property('data', str(dset))
             plot_node.property('outersolnum', str(sol_i))
-            model_name = model_name_array[0]
-            export_2D_PG(model, node, plot_node, export_node, sol, sol_i, model_name)
+            model_name = model_name
+            export_2D_PG(model, node, plot_node, export_node, sol, sol_name_i, model_name)
         sol_i = sol_i + 1
 
 # Export Uc plots
-def export_2D_PG(model, node, plot_node, export_node, sol, sol_i, model_name):
+def export_2D_PG(model, node, plot_node, export_node, sol, sol_name_i, model_name):
 
     # Initializing variables for the name of the png
     sol_name = sol.name()
     if node in PNG_NAME_DICT:
         file_name = PNG_NAME_DICT.get(node)
+    # WARNING: Searching for the next solution count for the folder names in
+    # WARNING: non overwrite mode of exporting plots depends on this folder
+    # WARNING: nomenclature. DO NOT CHANGE
+
     export_directory_i = (EXPORT_DIRECTORY + model_name +
-                          " - " + str(sol_i) + " [" + sol_name) + "]"
+                          " - " + str(sol_name_i) + " [" + sol_name) + "]"
     export_file_name = export_directory_i + '/' + file_name
     if node in PNG_NAME_DICT:
         export_file_name += ".png"

@@ -13,6 +13,7 @@ def clear_exports():
         RMTREE("Exports")
 
 for im, model in enumerate(models):
+    overwrite = True
     current_solutions = solutions[im]
     i = 0
     for solution in current_solutions:
@@ -23,6 +24,17 @@ for im, model in enumerate(models):
         print()
         selected_solution = input("Which solution would you like to choose for the plots? ")
         nomenclature = input("Prefix for the nomenclature: ")
+        input_set = ["y", "n", "Y", "N"]
+        while True:
+            user_input = input("Overwrite solutions? y or n: ")
+            if user_input in input_set:
+                if user_input == "Y" or "y":
+                    overwrite = True
+                else:
+                    overwrite = False
+                break
+            else:
+                print("Wrong input. Please enter 'y' or 'n'")
         while True:
             try:
                 selected_solution = int(selected_solution)
@@ -34,9 +46,10 @@ for im, model in enumerate(models):
         node = model / 'solutions' / current_solutions[selected_solution]
         print("Solution node selected: " + str(node))
         batch_export_pgs(model,
-                              node,
-                              [nomenclature, '001'],
-                              EXPORT_PLOT_NODES)
+                         overwrite,
+                         node,
+                         nomenclature,
+                         EXPORT_PLOT_NODES)
     else:
         print("No solutions found.")
 
