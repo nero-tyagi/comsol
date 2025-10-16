@@ -28,10 +28,10 @@ if not os.path.exists("new_plot_presets/"):
 
 # COMSOL files
 MPH_FILES = [
-    'input_files/SD-INLCN.mph',
+    # 'input_files/SD-INLCN.mph',
     # 'input_files/DMND001.mph',
     # 'input_files/NACA4412.mph',
-    # 'input_files/NACA4412PR1.mph',
+    'input_files/NACA4412PR1.mph',
     # 'input_files/BWRD.mph'
 ]
 
@@ -110,6 +110,54 @@ EXPORT_PRESET_1M = {
     'sourcetype': 'plotgroup',
     'width': float(1000.0),
     'widthpx': float(1000.0)
+}
+
+EXPORT_PRESET_1S = {
+    'aspectratio': float(1.0),
+    'background': 'color',
+    'colortheme': 'ClassicDark',
+    'fontsize': int(10),
+    'height': float(500.0),
+    'heightmultiple': int(1),
+    'heightpx': int(500),
+    'qualitylevel': int(100),
+    'resolution': int(96),
+    'showgrid': True,
+    'sourcetype': 'plotgroup',
+    'width': float(500.0),
+    'widthpx': float(500.0)
+}
+
+EXPORT_PRESET_1L = {
+    'aspectratio': float(1.0),
+    'background': 'color',
+    'colortheme': 'ClassicDark',
+    'fontsize': int(40),
+    'height': float(2000.0),
+    'heightmultiple': int(1),
+    'heightpx': int(2000),
+    'qualitylevel': int(100),
+    'resolution': int(96),
+    'showgrid': True,
+    'sourcetype': 'plotgroup',
+    'width': float(2000.0),
+    'widthpx': float(2000.0)
+}
+
+EXPORT_PRESET_1XL = {
+    'aspectratio': float(1.0),
+    'background': 'color',
+    'colortheme': 'ClassicDark',
+    'fontsize': int(80),
+    'height': float(4000.0),
+    'heightmultiple': int(1),
+    'heightpx': int(4000),
+    'qualitylevel': int(100),
+    'resolution': int(96),
+    'showgrid': True,
+    'sourcetype': 'plotgroup',
+    'width': float(4000.0),
+    'widthpx': float(4000.0)
 }
 
 ### Difference contours data

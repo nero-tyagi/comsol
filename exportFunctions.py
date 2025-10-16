@@ -37,17 +37,12 @@ def batch_export_Uc_plots(model, solution_node, model_name_array, export_nodes):
 # Export Uc plots
 def export_2D_PG(model, node, plot_node, export_node, sol, sol_i, model_name):
 
-    if not os.path.isdir(EXPORT_DIRECTORY):
-        os.mkdir(EXPORT_DIRECTORY)
-
     # Initializing variables for the name of the png
     sol_name = sol.name()
     if node in PNG_NAME_DICT:
         file_name = PNG_NAME_DICT.get(node)
     export_directory_i = (EXPORT_DIRECTORY + model_name +
                           " - " + str(sol_i) + " [" + sol_name) + "]"
-    if not os.path.exists(export_directory_i):
-        os.mkdir(export_directory_i)
     export_file_name = export_directory_i + '/' + file_name
     if node in PNG_NAME_DICT:
         export_file_name += ".png"
