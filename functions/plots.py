@@ -331,10 +331,11 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
             plot_node.property('outersolnum', str(sol_i))
             model_name = model_name
             export_2D_PG(model, node, plot_node, export_node, sol, sol_name_i, model_name)
-        sol_i = sol_i + 1
+        sol_i += 1
+        sol_name_i += 1
 
 # Export Uc plots
-def export_2D_PG(model, node, plot_node, export_node, sol, sol_name_i, model_name):
+def export_2D_PG(model, node, export_node, sol, sol_name_i, model_name):
 
     # Initializing variables for the name of the png
     sol_name = sol.name()
