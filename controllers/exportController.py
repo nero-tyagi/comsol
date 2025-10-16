@@ -7,11 +7,6 @@ from shutil import rmtree as RMTREE
 models, clients, solutions = controller(MPH_FILES, DISPLAY_NODE_TREE)
 print(models)
 
-# Remove all the files in all the subdirectories and files inside "Exports"
-def clear_exports():
-    if EXISTS("Exports"):
-        RMTREE("Exports")
-
 for im, model in enumerate(models):
     overwrite = True
     current_solutions = solutions[im]

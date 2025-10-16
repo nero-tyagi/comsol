@@ -8,12 +8,6 @@ path = os.environ["DYLD_LIBRARY_PATH"]
 minuends = ["dataset1.txt", "dataset1 copy.txt"]
 subtrahends = ["dataset2.txt"]
 
-mph_files = [
-    # 'input_files/SD-INLCN.mph',
-    'input_files/BWRD-small_data.mph'
-    # 'input_files/BWRD.mph'
-]
-
 if __name__ == '__main__':
     # arr = [0, 1, 2, 3, 4, 5]
     # total = [0, 0, 0, 0, 0, 0]
