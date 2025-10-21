@@ -1,3 +1,4 @@
+# PyCharm IDE files
 .idea/*
 !.idea/runConfigurations/
 !.idea/runConfigurations/*.xml
@@ -5,11 +6,15 @@
 .idea/shelf/
 .idea/httpRequests/
 
+# Python files
 .venv/
 .DS_Store
 __pycache__
 
+# Input and export folders
 /input_files/*
+/input_files/exports/
+/input_files/Exports/
 !/input_files/inputVariables.py
 output_files/
 /Exports/
