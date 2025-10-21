@@ -8,4 +8,4 @@ view = input("What view would you like to use? 'n' for default view. ")
 if view == 'n':
     view = 'view1'
 for plot in plots:
-    generate_export_node(models[0], False, pg_name=preset_plots.get(plot), view=view)
+    generate_export_node(models[0], True, pg_name=preset_plots.get(plot), view=view)
