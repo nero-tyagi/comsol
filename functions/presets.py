@@ -3,6 +3,9 @@ import numpy as np
 from functions.mph import get_node_properties
 from constants import *
 
+#todo: Add new presets for streamlines, vector plots, and new colors for some contours.
+#todo: Add new plots for vorticity, turbulence energy, and inter-phase momentum transfer vector plot.
+
 # Reads the preset files and create a dictionary of preset properties
 def read_presets(file):
     presets = {}

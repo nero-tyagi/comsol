@@ -8,6 +8,11 @@ from shutil import rmtree as RMTREE
 models, clients, solutions = controller(MPH_FILES, DISPLAY_NODE_TREE)
 print(models)
 
+#todo: Need to add a loop to export all the export resolution presets in 0.5x, 1x, 2x, and 4x directories
+
+#todo: Need to add a loop to export multiple views if the user chooses to do so (usually a particular view and an
+#todo: extent view.
+
 for im, model in enumerate(models):
     overwrite = True
     current_solutions = solutions[im]

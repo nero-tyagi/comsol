@@ -1,9 +1,18 @@
 from controllers.mphController import controller
 from input_files.inputVariables import MPH_FILES
+from input_files.inputVariables import EXPORT_PLOT_NODES
+from constants import EXPORT_DICT
 from functions.plots import generate_export_node, preset_plots
 
 models, clients, datasets = controller(MPH_FILES, False)
-plots = [1, 2, 3, 4, 5, 6]
+
+# Accessing plot keys from the export_plot_nodes list using the export dictionary
+plots = []
+for x in EXPORT_PLOT_NODES:
+    for key, val in EXPORT_DICT.items():
+        if val == x:
+            plots.append(key)
+
 view = input("What view would you like to use? 'n' for default view. ")
 if view == 'n':
     view = 'view1'
