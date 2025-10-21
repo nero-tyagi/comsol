@@ -1,2 +1,121 @@
-# comsol
-COMSOL code to read and modify mph files, giving the user the ability to generate plots and export them. Compatible with parametric solutions. Presets available for plots and data files.
+# COMSOL Processing
+
+## Introduction
+Hello! This code helps you process COMSOL files. You might use COMSOL to conduct studies and
+then export plots from those studies. You might even have parametric studies in your COMSOL
+files that have many parameters, and exporting multiple plots for each of those parameters
+and then organizing them is a pain. This code helps you do that.
+
+This has only been tested for Fluid plots but it should work for other physics plots as well.
+The main kind of plotgroup that this code can handle is a 2DPlotGroup. Under the 2DPlotGroup category,
+currently supported subplots include:
+
+- Surface Plot
+- Arrow Surface Plot
+- Streamlines
+
+Other plots may be added in the future.
+
+## Prerequisites
+
+You need to have Python 3.8 or higher installed. Use the requirements.txt file to install the
+necessary packages by going into your Python environment and running the following command:
+
+```
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+Make sure that "pip" isn't aliased in your system to somewhere else. If you use an M-series Mac
+system, the first time you run any of the configurations, you will get an error saying
+"couldn't find a COMSOL installation". That's because the current "mph" package has a tiny error
+in its `discovery.py` file. Navigate to it and search for "maci64" and replace it with "macarm64".
+
+## How to use this code
+Once you create all the plots and edit them however you like in a COMSOL file, you can use that
+file to export presets for all your future files. Add the name(s) of the COMSOL fiels in the
+`input_files/inputVariables.py` file. Inset your COMSOL file(s) in the `input_files`
+directory. New preset files are exported in the `new_plot_presets` folder. This folder contains
+directories for each plotgroup that you have in the COMSOL file, and each directory contains a
+file for each plot in that plotgroup. The parent directory also contains a file for each plotgroup.
+
+The functions that generate and read presets are present in the `functions/presets.py`file. A
+PyCharm configuration to generate the presets will be included in the future. Currently, only
+multiphysics physics related plot presets exist. These presets are present in the `presets_files`
+directory. Once you generate your custom presets, you need to move them from the `new_plot_presets`
+directory to the `presets_files` directory.
+
+> The reason these directories exist separately is so you can make changes to the presets files
+> after exporting them if need be.
+
+Once your custom presets are ready, you can use the `Generate default plots` configuration. This
+will generate the default plots which are listed in the `constants.py` file. Another configuration
+will be added in the future that will give you control over which plots are generated. 
+
+Say you want the plots to export a particular view. You will need to create this view in the COMSOL
+file, go into the properties of that view, and note the tag that is assigned to that view. Then,
+you can use the `Generate export nodes` configuration. This will generate new export nodes that
+will export the plots in the view that you specified. Make sure to select "y" when the prompt asks
+you if you want to overwrite the existing export nodes.
+
+> `Generate default plots` configuration also generates export nodes using the default view. This
+> is why you need to overwrite the existing export nodes.
+
+Once you have generated the default plots and export nodes, you can use the `Export all plots`
+configuration. This will open the COMSOL file and prompt you to enter two values:
+
+1. Prefix (this would be the nomenclature of your MPH solution), and
+2. The solution node that you want to use as the data source for the plots.
+3. Whether you want to overwrite the existing export files (say "n" if you want to continue the 
+solution count from the last existing solution).
+
+The code will then create directories inside the 'input_files/Exports' directory for each
+solution (if the solution node you choose is a parametric solution). The naming scheme for the
+directories is:
+
+> Prefix *+* "-" + Solution Count + [Variable name(s)]
+
+### Summary
+
+1. Create plots in COMSOL and change the settings however you like.
+2. Export presets for all your plots. (to be added soon. Currently, you can only use the existing
+presets)
+3. Generate default plots.
+4. Generate export nodes. (if you want a view other than the default view)
+5. Export all plots.
+
+## Organization of the code
+
+The code is organized in the following directories:
+
+- `controllers`
+: Contains the main functions that are called by the configurations.
+
+- `functions`
+: Contains the functions that are used by the controllers. The functions perform
+various tasks such as reading and writing files, generating presets, and generating plots.
+
+- `input_files`
+: Contains the input files that are used by the controllers. Edit `inputVariables.py`
+to change the input files.
+
+- 'new_plot_presets'
+: Contains the new presets that are generated by the controllers (to be added soon)..
+
+- 'presets_files'
+: Contains the presets that are used by the `Generate default plots` configuration.
+Edit the "presets" files carefully to change the presets. It is recommended to make these changes
+within the COMSOL file and export those presets instead of changing them manually if you aren't
+confident in what the property variables and values are.
+
+- 'constants.py'
+: Contains the constants that are used by many of the functions and controllers. Do NOT change
+unless you know what you are doing.
+
+## Final thoughts
+Using this code will help you streamline your workflow and avoid unnecessary repetitions. You might
+have a certain set of plots in mind and a certain way to present them that you reuse all the time.
+You can use this code to generate those plots using your custom settings and export them in a
+standardized way.
+
+This code is still in development. I will be adding more features and configurations in the future.
