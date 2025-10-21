@@ -1,12 +1,14 @@
 import os
 
-# Defining directories
+### Important directories
+
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
 PRESETS_FOLDER = "presets_files/"
 EXPORT_DIRECTORY = "Exports/"
 
-# Presets folder
+### Presets folder
+
 if not os.path.exists("new_plot_presets/"):
     try:
         os.mkdir("new_plot_presets")
@@ -22,18 +24,6 @@ if not os.path.exists("new_plot_presets/"):
         raise e
 
 ## Dictionaries
-
-# COMSOL files
-MPH_FILES = [
-    # 'input_files/SDPR2.mph',
-    # 'input_files/SDPR3-1.mph',
-    # 'input_files/SDPR3-2.mph',
-    # 'input_files/SDPR3-3.mph',
-    'input_files/SDPR3-4.mph',
-    # 'input_files/SDPR3-5.mph',
-    # 'input_files/SDPR3-6.mph',
-    # 'input_files/SDPR4.mph',
-]
 
 EXPORT_DICT = {
     1: "Continuous Phase Velocity",
@@ -55,7 +45,8 @@ PNG_NAME_DICT = {
     'Dispersed Phase Volume Fraction': 'phi',
 }
 
-# Preset ignore lists
+### Preset ignore lists
+
 PG_IGNORE_LIST = [
     'data',
     'looplevel',
@@ -95,6 +86,8 @@ EXPORT_IGNORE_LIST = [
     'sizedesc',
     'tifffilename'
 ]
+
+### Export presets
 
 EXPORT_PRESET_1M = {
     'aspectratio': float(1.0),
@@ -167,9 +160,6 @@ MINUENDS = ["dataset1.txt", "dataset1 copy.txt"]
 SUBTRAHENDS = ["dataset2.txt"]
 
 ### Other constants
-
-EXPORT_PLOT_NODES = [EXPORT_DICT[1], EXPORT_DICT[2], EXPORT_DICT[3],
-                     EXPORT_DICT[4], EXPORT_DICT[5], EXPORT_DICT[6]]
 
 EXPORT_OUTER_SOL_REQUIRED = {
 

@@ -1,5 +1,6 @@
 from controllers.mphController import controller
-from constants import MPH_FILES, DISPLAY_NODE_TREE, EXPORT_PLOT_NODES
+from constants import DISPLAY_NODE_TREE
+from input_files.inputVariables import MPH_FILES, EXPORT_PLOT_NODES
 from functions.plots import batch_export_pgs
 from os.path import exists as EXISTS
 from shutil import rmtree as RMTREE

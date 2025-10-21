@@ -1,5 +1,5 @@
 from controllers.mphController import controller
-from constants import MPH_FILES
+from input_files.inputVariables import MPH_FILES
 from functions.plots import generate_default_pgs
 
 # Run this file using a Pycharm configuration to generate all the default plots.

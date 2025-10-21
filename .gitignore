@@ -10,6 +10,7 @@
 __pycache__
 
 input_files/
+!input_files/inputVariables.py
 output_files/
 /Exports/
 !*/exports/

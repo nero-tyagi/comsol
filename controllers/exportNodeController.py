@@ -1,5 +1,5 @@
 from controllers.mphController import controller
-from constants import MPH_FILES
+from input_files.inputVariables import MPH_FILES
 from functions.plots import generate_export_node, preset_plots
 
 models, clients, datasets = controller(MPH_FILES, False)
