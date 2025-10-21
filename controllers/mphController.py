@@ -48,7 +48,8 @@ def mph_import(file, file_name):
 
 # Checking the directory for available files and then loading it using the MPh library.
 # If the function can't find the input files, please check the directory and filenames in
-# main.py. Also, confirm that the file you hope to import has the extension ".mph".
+# input_files/inputVariables.py. Also, confirm that the file you hope to import has the
+# extension ".mph".
 
 def controller (file_paths, display_node_tree = False):
     mphLoadedCorrectly = False

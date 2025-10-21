@@ -1,4 +1,4 @@
-from functions.mph import *
+from mph import get_client_names, get_parameters, get_physics
 
 # Check the values returned by any get function
 def check_get_function(func, *args):
