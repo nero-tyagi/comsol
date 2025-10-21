@@ -23,7 +23,7 @@ for im, model in enumerate(models):
         while True:
             user_input = input("Overwrite solutions? y or n: ")
             if user_input in input_set:
-                if user_input == "Y" or "y":
+                if user_input in ["Y", 'y']:
                     overwrite = True
                 else:
                     overwrite = False
@@ -40,6 +40,7 @@ for im, model in enumerate(models):
                 print("Wrong input. Please choose again.")
         node = model / 'solutions' / current_solutions[selected_solution]
         print("Solution node selected: " + str(node))
+        print("Ovewrite: " + str(overwrite))
         batch_export_pgs(model,
                          overwrite,
                          node,
@@ -47,4 +48,3 @@ for im, model in enumerate(models):
                          EXPORT_PLOT_NODES)
     else:
         print("No solutions found.")
-

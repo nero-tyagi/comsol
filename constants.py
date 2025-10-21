@@ -4,7 +4,7 @@ import os
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
 PRESETS_FOLDER = "presets_files/"
-EXPORT_DIRECTORY = "input_files/Exports/"
+EXPORT_DIRECTORY = "input_files/exports/"
 
 # Presets folder
 if not os.path.exists("new_plot_presets/"):
@@ -25,11 +25,11 @@ if not os.path.exists("new_plot_presets/"):
 
 # COMSOL files
 MPH_FILES = [
-    'input_files/SDPR2.mph',
+    # 'input_files/SDPR2.mph',
     # 'input_files/SDPR3-1.mph',
     # 'input_files/SDPR3-2.mph',
     # 'input_files/SDPR3-3.mph',
-    # 'input_files/SDPR3-4.mph',
+    'input_files/SDPR3-4.mph',
     # 'input_files/SDPR3-5.mph',
     # 'input_files/SDPR3-6.mph',
     # 'input_files/SDPR4.mph',

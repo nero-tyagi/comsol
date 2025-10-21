@@ -3,6 +3,7 @@ from functions.mph import get_datasets, clearPlotGroups
 from constants import *
 from constants import (PNG_NAME_DICT,
                        EXPORT_DIRECTORY)
+import re
 
 # Use this list to pass an array of a combination of these numbers to generate plots
 preset_plots = {
@@ -304,26 +305,41 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
     # Overwrite mode - If not overwriting files, first we need to find the last
     # solution number that already exists in the folder for the current model
     # name
-    sol_name_i = 1 # starting solution count
+    sol_name_i = 0 # starting solution count
     if not overwrite_mode:
+        print("\nChecking existing files...")
         files = os.listdir(EXPORT_DIRECTORY)
         print(files)
         #Separating the files that contain only the current model's name
         files = [x for x in files if model_name in x]
         print("Cleaned list of files: ")
         print(files)
-        max_int = 1
+        max_int = 0
+
         for file in files:
-            #WARNING: This is sensitive to how the folders are named.
             latter_part = str(file).split(model_name + " - ", 1)[1]
-            print("latter_part: " + latter_part)
-            if max_int < int(latter_part[0]):
-                max_int = int(latter_part[0])
+            print("latter_part:", latter_part)
+
+            # Find the number before the first '['
+            match = re.search(r'(\d+)', latter_part)
+            if match:
+                number = int(match.group(1))
+                if number > max_int:
+                    max_int = number
+        # for file in files:
+        #     #WARNING: This is sensitive to how the folders are named.
+        #     latter_part = str(file).split(model_name + " - ", 1)[1]
+        #     print("latter_part: " + latter_part)
+        #     if max_int < int(latter_part[0]):
+        #         max_int = int(latter_part[0])
         print(max_int)
-        sol_name_i = max_int + 1
+        sol_name_i = max_int
+    else:
+        print("\nOverwriting existing files...")
+
+    sol_name_i += 1
     sol_i = 1
     for sol in outer_solutions:
-
         for node in export_nodes:
             plot_node = model / 'plots' / str(node)
             export_node = model / 'exports' / node
@@ -345,7 +361,7 @@ def export_2D_PG(model, node, export_node, sol, sol_name_i, model_name):
     # WARNING: non overwrite mode of exporting plots depends on this folder
     # WARNING: nomenclature. DO NOT CHANGE
 
-    export_directory_i = (EXPORT_DIRECTORY + model_name +
+    export_directory_i = ("exports/" + model_name +
                           " - " + str(sol_name_i) + " [" + sol_name) + "]"
     export_file_name = export_directory_i + '/' + file_name
     if node in PNG_NAME_DICT:
