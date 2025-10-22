@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration name="Generate default plots" type="PythonConfigurationType" factoryName="Python">
+  <configuration name="Generate plots" type="PythonConfigurationType" factoryName="Python">
     <module name="comsol-git" />
     <option name="PARENT_ENVS" value="true" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/controllers/plotController.py" />

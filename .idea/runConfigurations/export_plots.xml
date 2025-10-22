@@ -1,9 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration name="Test new functions" type="PythonConfigurationType" factoryName="Python">
+  <configuration name="Export plots" type="PythonConfigurationType" factoryName="Python">
     <module name="comsol-git" />
     <option name="PARENT_ENVS" value="true" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/controllers/testControllers.py" />
+    <option name="MODULE_MODE" value="true" />
+    <option name="SCRIPT_NAME" value="controllers.exportController" />
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
     </envs>
