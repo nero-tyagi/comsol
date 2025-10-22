@@ -58,7 +58,6 @@ def controller (file_paths, display_node_tree = False):
     datasets = []
     solutions = []
     for file in file_paths:
-        print(file)
         file_name = os.path.basename(file)
 
         # Importing the mph file
@@ -77,10 +76,6 @@ def controller (file_paths, display_node_tree = False):
         if mphLoadedCorrectly:
             datasets.append(get_datasets(model))
             solutions.append(get_solutions(model))
-
-            print("\nSolutions available: ")
-            for set in solutions:
-                print(str(set))
             print()
             if display_node_tree:
                 model_tree = mph.tree(model)

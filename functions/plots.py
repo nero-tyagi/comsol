@@ -6,7 +6,7 @@ from constants import (PNG_NAME_DICT,
 import re
 
 # Use this list to pass an array of a combination of these numbers to generate plots
-preset_plots = {
+default_plots = {
     1: 'Continuous Phase Velocity',
     2: 'Dispersed Phase Velocity',
     3: 'Pressure',
@@ -17,8 +17,6 @@ preset_plots = {
 
 # Generates a plot group, populates it with plots, changes all properties to preset properties, and handles exceptions
 def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset=''):
-
-    print("Working on model " + str(model.name())+  "\n")
 
     if overwritePlots:
 
@@ -155,18 +153,16 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
         if pg_name == "Pressure":
             if node.name() == 'Surface plot':
                 node.toggle()
-    print("\n")
+    print()
 
     new_plot_group_node.property('titletype', 'none')
     new_plot_group_node.property('data', dset)
 
-    # Saving the model
-    model.save()
-
-
 # Generates a plot group, populates it with plots, changes all properties to preset properties, and handles exceptions
-def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Velocity", view='view1'):
-    print("Generating export nodes in model " + str(model.name()) + "\n")
+def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Velocity",
+                         view='view1',
+                         quality=1,
+                         zoomextents=False):
 
     if overwriteNodes:
 
@@ -219,15 +215,40 @@ def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Veloci
                 print("Could not assign property " + str(property))
                 print("Property value:" + str(pg_presets.get(property)))
                 # raise e
-    print("\n")
+
+    # Setting custom export settings
+    EXPORT_PRESET_1 = {
+        'aspectratio': float(1.0),
+        'background': 'color',
+        'colortheme': 'ClassicDark',
+        'fontsize': int(20),
+        'height': float(1000.0),
+        'heightmultiple': int(1),
+        'heightpx': int(1000),
+        'qualitylevel': int(100),
+        'resolution': int(96),
+        'showgrid': True,
+        'sourcetype': 'plotgroup',
+        'width': float(1000.0),
+        'widthpx': float(1000.0)
+    }
+    EXPORT_PRESET_1['fontsize'] = int(EXPORT_PRESET_1['fontsize'] * quality)
+    EXPORT_PRESET_1['heightpx'] = int(EXPORT_PRESET_1['heightpx'] * quality)
+    EXPORT_PRESET_1['height'] = float(EXPORT_PRESET_1['height'] * quality)
+    EXPORT_PRESET_1['width'] = float(EXPORT_PRESET_1['width'] * quality)
+    EXPORT_PRESET_1['widthpx'] = float(EXPORT_PRESET_1['widthpx'] * quality)
+    for property, value in EXPORT_PRESET_1.items():
+        try:
+            new_export_node.property(property, value)
+        except Exception as e:
+            print("Could not assign property " + str(property))
+            print("Property value:" + str(value))
+    new_export_node.property('zoomextents', zoomextents)
 
     source_node = model/'plots'/pg_name
     new_export_node.property('pngfilename', 'NOPATH.png')
     new_export_node.property('view', view)
     new_export_node.property('sourceobject', source_node.tag())
-
-    # Saving the model
-    model.save()
 
 # Generates all the default plot groups using the existing presets
 def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
@@ -248,8 +269,6 @@ def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
             i = -1
             while dset_tag == '':
                 dset_node = model / 'datasets' / model.solutions()[i]
-                print("Dataset node:")
-                print(dset_node)
                 current_dset = dsets[i]
                 current_dset = current_dset.lower()
                 if 'solution' in current_dset:
@@ -257,11 +276,15 @@ def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
                 else:
                     i -= 1
         for plot in plots:
-            generate_pg(model, overwritePlots, pg_name=preset_plots.get(plot), dset=dset_tag)
-            generate_export_node(model, True, pg_name=preset_plots.get(plot), view='view1')
+            generate_pg(model, overwritePlots, pg_name=default_plots.get(plot), dset=dset_tag)
+            generate_export_node(model, True, pg_name=default_plots.get(plot), view='view1')
+        print("Saving model...")
+        model.save()
+        print("Model saved. Exiting.")
 
 def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False, overwriteNodes=False):
     for model in models:
+        print("Generating export nodes in model " + str(model.name()) + "\n")
 
         # Clearing all pre-existing plots
         if clearPlots:
@@ -273,11 +296,24 @@ def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False, overwriteN
             dset_node = model / 'datasets' / model.solutions()[-1]
             dset_tag = dset_node.tag()
         for pg in pgs:
-            generate_pg(model, overwritePlots, pg_name=preset_plots.get(pg), dset=dset_tag)
-            generate_export_node(model, overwriteNodes, pg_name=preset_plots.get(pg), view='view1')
+            generate_pg(model, overwritePlots, pg_name=pg, dset=dset_tag)
+            generate_export_node(model, overwriteNodes, pg_name=pg, view='view1')
+        print("Saving model...")
+        model.save()
+        print("Model saved. Exiting.")
 
 def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
-                     export_nodes):
+                     export_nodes, quality=1, zoomextents=False, view='view1'):
+
+    print("Exporting with quality settings: Quality = " + str(quality) +
+          "x and ZoomExtents = False...")
+    for node in export_nodes:
+        generate_export_node(model,
+                             True,
+                             pg_name=node,
+                             view=view,
+                             quality=quality,
+                             zoomextents=zoomextents)
 
     # Using the given node to identify the outer solutions
     outer_solutions = solution_node.children()
@@ -307,33 +343,34 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
     # name
     sol_name_i = 0 # starting solution count
     if not overwrite_mode:
-        print("\nChecking existing files...")
-        files = os.listdir(EXPORT_DIRECTORY)
-        print(files)
-        #Separating the files that contain only the current model's name
-        files = [x for x in files if model_name in x]
-        print("Cleaned list of files: ")
-        print(files)
-        max_int = 0
+        print("\nChecking existing files for the current model name...")
+        try:
+            files = os.listdir(EXPORT_DIRECTORY)
+            print(files)
+            # Separating the files that contain only the current model's name
+            files = [x for x in files if model_name in x]
+            print("Cleaned list of files: ")
+            print(files)
+            max_int = 0
 
-        for file in files:
-            latter_part = str(file).split(model_name + " - ", 1)[1]
-            print("latter_part:", latter_part)
+            # WARNING: This is sensitive to how the folders are named.
+            for file in files:
+                latter_part = str(file).split(model_name + " - ", 1)[1]
+                print("latter_part:", latter_part)
 
-            # Find the number before the first '['
-            match = re.search(r'(\d+)', latter_part)
-            if match:
-                number = int(match.group(1))
-                if number > max_int:
-                    max_int = number
-        # for file in files:
-        #     #WARNING: This is sensitive to how the folders are named.
-        #     latter_part = str(file).split(model_name + " - ", 1)[1]
-        #     print("latter_part: " + latter_part)
-        #     if max_int < int(latter_part[0]):
-        #         max_int = int(latter_part[0])
-        print(max_int)
-        sol_name_i = max_int
+                # Find the number before the first '['
+                match = re.search(r'(\d+)', latter_part)
+                if match:
+                    number = int(match.group(1))
+                    if number > max_int:
+                        max_int = number
+            print(max_int)
+            sol_name_i = max_int
+        except Exception as e:
+            if os.listdir(EXPORT_DIRECTORY) is None:
+                print("No export directory found.")
+            sol_name_i = 0
+
     else:
         print("\nOverwriting existing files...")
 
@@ -346,12 +383,17 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
             plot_node.property('data', str(dset))
             plot_node.property('outersolnum', str(sol_i))
             model_name = model_name
-            export_2D_PG(model, node, export_node, sol, sol_name_i, model_name)
+            export_2D_PG(model, node, export_node, sol, sol_name_i,
+                         model_name, quality, zoomextents)
         sol_i += 1
         sol_name_i += 1
 
+    # Saving the model
+    model.save()
+
 # Export Uc plots
-def export_2D_PG(model, node, export_node, sol, sol_name_i, model_name):
+def export_2D_PG(model, node, export_node, sol, sol_name_i,
+                 model_name, quality, zoomextents):
 
     # Initializing variables for the name of the png
     sol_name = sol.name()
@@ -361,9 +403,12 @@ def export_2D_PG(model, node, export_node, sol, sol_name_i, model_name):
     # WARNING: non overwrite mode of exporting plots depends on this folder
     # WARNING: nomenclature. DO NOT CHANGE
 
-    export_directory_i = ("exports/" + model_name +
-                          " - " + str(sol_name_i) + " [" + sol_name) + "]"
+    export_directory_i = (("exports/" + model_name +
+                          " - " + str(sol_name_i) + " [" + sol_name) + "]" +
+                          "/" + str(quality) + "x")
     export_file_name = export_directory_i + '/' + file_name
+    if zoomextents:
+        export_file_name += "_zoomextents"
     if node in PNG_NAME_DICT:
         export_file_name += ".png"
 

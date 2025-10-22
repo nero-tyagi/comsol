@@ -2,7 +2,7 @@ from controllers.mphController import controller
 from input_files.inputVariables import MPH_FILES
 from input_files.inputVariables import EXPORT_PLOT_NODES
 from constants import EXPORT_DICT
-from functions.plots import generate_export_node, preset_plots
+from functions.plots import generate_export_node, default_plots
 
 models, clients, datasets = controller(MPH_FILES, False)
 
@@ -13,8 +13,11 @@ for x in EXPORT_PLOT_NODES:
         if val == x:
             plots.append(key)
 
-view = input("What view would you like to use? 'n' for default view. ")
-if view == 'n':
-    view = 'view1'
-for plot in plots:
-    generate_export_node(models[0], True, pg_name=preset_plots.get(plot), view=view)
+for model in models:
+    view = input("What view would you like to use? 'n' for default view. ")
+    if view == 'n':
+        view = 'view1'
+    for plot in plots:
+        generate_export_node(model, True, pg_name=default_plots.get(plot), view=view)
+        # Saving the model
+        model.save()

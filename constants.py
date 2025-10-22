@@ -5,7 +5,7 @@ import os
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
 PRESETS_FOLDER = "presets_files/"
-EXPORT_DIRECTORY = "Exports/"
+EXPORT_DIRECTORY = "exports/"
 
 ### Presets folder
 
@@ -89,7 +89,7 @@ EXPORT_IGNORE_LIST = [
 
 ### Export presets
 
-EXPORT_PRESET_1M = {
+EXPORT_PRESET_1 = {
     'aspectratio': float(1.0),
     'background': 'color',
     'colortheme': 'ClassicDark',
@@ -103,54 +103,6 @@ EXPORT_PRESET_1M = {
     'sourcetype': 'plotgroup',
     'width': float(1000.0),
     'widthpx': float(1000.0)
-}
-
-EXPORT_PRESET_1S = {
-    'aspectratio': float(1.0),
-    'background': 'color',
-    'colortheme': 'ClassicDark',
-    'fontsize': int(10),
-    'height': float(500.0),
-    'heightmultiple': int(1),
-    'heightpx': int(500),
-    'qualitylevel': int(100),
-    'resolution': int(96),
-    'showgrid': True,
-    'sourcetype': 'plotgroup',
-    'width': float(500.0),
-    'widthpx': float(500.0)
-}
-
-EXPORT_PRESET_1L = {
-    'aspectratio': float(1.0),
-    'background': 'color',
-    'colortheme': 'ClassicDark',
-    'fontsize': int(40),
-    'height': float(2000.0),
-    'heightmultiple': int(1),
-    'heightpx': int(2000),
-    'qualitylevel': int(100),
-    'resolution': int(96),
-    'showgrid': True,
-    'sourcetype': 'plotgroup',
-    'width': float(2000.0),
-    'widthpx': float(2000.0)
-}
-
-EXPORT_PRESET_1XL = {
-    'aspectratio': float(1.0),
-    'background': 'color',
-    'colortheme': 'ClassicDark',
-    'fontsize': int(80),
-    'height': float(4000.0),
-    'heightmultiple': int(1),
-    'heightpx': int(4000),
-    'qualitylevel': int(100),
-    'resolution': int(96),
-    'showgrid': True,
-    'sourcetype': 'plotgroup',
-    'width': float(4000.0),
-    'widthpx': float(4000.0)
 }
 
 ### Difference contours data
