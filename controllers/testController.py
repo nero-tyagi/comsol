@@ -1,8 +1,6 @@
 from controllers.mphController import controller
 from input_files.inputVariables import MPH_FILES
 
-# generate_default_pgs(models, True, True)
-
 models, clients, datasets = controller(MPH_FILES, False)
 model = models[0]
 

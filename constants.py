@@ -5,7 +5,8 @@ import os
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
 PRESETS_FOLDER = "presets_files/"
-EXPORT_DIRECTORY = "exports/"
+# WARNING: Do not change to just "exports" because of non-overwrite mode in batch exporting.
+EXPORT_DIRECTORY = "input_files/exports/"
 
 ### Presets folder
 

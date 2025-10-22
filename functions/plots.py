@@ -251,56 +251,50 @@ def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Veloci
     new_export_node.property('sourceobject', source_node.tag())
 
 # Generates all the default plot groups using the existing presets
-def generate_default_pgs(models, clearPlots=False, overwritePlots=False):
+def generate_default_pgs(model, clearPlots=False, overwritePlots=False):
 
     plots = [1, 2, 3, 4, 5, 6]
-    for model in models:
+    # Clearing all pre-existing plots
+    if clearPlots:
+        clearPlotGroups(model)
+    # Selecting the last available solution or parametric solution
+    # dataset node to give to plot groups
+    dsets = get_datasets(model)
+    dset_tag = ''
+    if dsets != []:
+        print(dsets)
+        dset_node = model / 'datasets' / model.solutions()[0]
+        dset_tag = dset_node.tag()
 
-        # Clearing all pre-existing plots
-        if clearPlots:
-            clearPlotGroups(model)
-        # Selecting the last available solution or parametric solution
-        # dataset node to give to plot groups
-        dsets = get_datasets(model)
-        dset_tag = ''
-        if dsets != []:
-            print(dsets)
-            dset_node = ''
-            i = -1
-            while dset_tag == '':
-                dset_node = model / 'datasets' / model.solutions()[i]
-                current_dset = dsets[i]
-                current_dset = current_dset.lower()
-                if 'solution' in current_dset:
-                    dset_tag = dset_node.tag()
-                else:
-                    i -= 1
-        for plot in plots:
-            generate_pg(model, overwritePlots, pg_name=default_plots.get(plot), dset=dset_tag)
-            generate_export_node(model, True, pg_name=default_plots.get(plot), view='view1')
-        print("Saving model...")
-        model.save()
-        print("Model saved. Exiting.")
+    for plot in plots:
+        generate_pg(model, overwritePlots, pg_name=default_plots.get(plot), dset=dset_tag)
+        generate_export_node(model, True, pg_name=default_plots.get(plot), view='view1')
 
-def generate_pgs(models, pgs, clearPlots=False, overwritePlots=False, overwriteNodes=False):
-    for model in models:
-        print("Generating export nodes in model " + str(model.name()) + "\n")
+    print("Saving model " + str(model.name()) + "...")
+    model.save()
+    print("Model saved. Exiting.\n")
 
-        # Clearing all pre-existing plots
-        if clearPlots:
-            clearPlotGroups(model)
-        # Selecting the last available dataset node to give to plot groups
-        dsets = get_datasets(model)
-        dset_tag = ''
-        if dsets != []:
-            dset_node = model / 'datasets' / model.solutions()[-1]
-            dset_tag = dset_node.tag()
-        for pg in pgs:
-            generate_pg(model, overwritePlots, pg_name=pg, dset=dset_tag)
-            generate_export_node(model, overwriteNodes, pg_name=pg, view='view1')
-        print("Saving model...")
-        model.save()
-        print("Model saved. Exiting.")
+
+
+def generate_pgs(model, pgs, clearPlots=False, overwritePlots=False, overwriteNodes=False):
+    # Clearing all pre-existing plots
+    if clearPlots:
+        clearPlotGroups(model)
+    # Selecting the last available dataset node to give to plot groups
+    dsets = get_datasets(model)
+    dset_tag = ''
+    if dsets != []:
+        dset_node = model / 'datasets' / model.solutions()[-1]
+        dset_tag = dset_node.tag()
+    for pg in pgs:
+        generate_pg(model, overwritePlots, pg_name=pg, dset=dset_tag)
+        generate_export_node(model, overwriteNodes, pg_name=pg, view='view1')
+
+    print("Saving model " + str(model.name()) + "...")
+    model.save()
+    print("Model saved. Exiting.\n")
+
+
 
 def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
                      export_nodes, quality=1, zoomextents=False, view='view1'):

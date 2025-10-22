@@ -27,7 +27,7 @@ def mph_import(file, file_name):
         already_loaded = False
         client = mph.start()
         client_names = get_client_names(client)
-        print('Active clients: ' + str(client_names))
+        # print('Active clients: ' + str(client_names))
 
         for name in client_names:
             if name == file_name:
@@ -35,8 +35,8 @@ def mph_import(file, file_name):
                 print('This client has already been loaded!')
                 break
         if not already_loaded:
-            print('The requested model is not currently loaded. Loading the model'
-                  ' from disk.')
+            # print('The requested model is not currently loaded. Loading the model'
+            #       ' from disk.')
             model = client.load(file)
         else:
             # If multiple clients are loaded, accessing the last client loaded.

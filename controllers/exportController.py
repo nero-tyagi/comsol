@@ -6,6 +6,10 @@ from functions.inputs import getYOrN
 from os.path import exists as EXISTS
 from shutil import rmtree as RMTREE
 
+#todo: Improve export speed by exporting all qualities and views for a node at once
+#todo: before moving on to the next node. Nodes like streamlines take a long time to
+#todo: prepare for export. Preparing those plot nodes multiple times is wasteful.
+
 models, clients, solutions = controller(MPH_FILES, DISPLAY_NODE_TREE)
 print(models)
 
