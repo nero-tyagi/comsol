@@ -1,5 +1,5 @@
 from functions.presets import read_presets
-from functions.mph import get_datasets, clearPlotGroups
+from functions.mph import get_datasets, clearPlotGroups, get_dset_tag_for_sol
 from constants import *
 from constants import (PNG_NAME_DICT,
                        EXPORT_DIRECTORY)
@@ -379,7 +379,8 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
             plot_node.property('data', str(dset))
             plot_node.property('outersolnum', str(sol_i))
             model_name = model_name
-            export_2D_PG(model, node, export_node, sol, sol_name_i,
+            sol_name = sol.name()
+            export_2D_PG(model, node, export_node, sol_name, sol_name_i,
                          model_name, quality, zoomextents)
         sol_i += 1
         sol_name_i += 1
@@ -388,29 +389,28 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
     model.save()
 
 # Export Uc plots
-def export_2D_PG(model, node, export_node, sol, sol_name_i,
+def export_2D_PG(model, pg_title, export_node, sol_name, outer_sol_name_i,
                  model_name, quality, zoomextents):
 
     # Initializing variables for the name of the png
-    sol_name = sol.name()
-    if node in PNG_NAME_DICT:
-        file_name = PNG_NAME_DICT.get(node)
+    if pg_title in PNG_NAME_DICT:
+        file_name = PNG_NAME_DICT.get(pg_title)
     # WARNING: Searching for the next solution count for the folder names in
     # WARNING: non overwrite mode of exporting plots depends on this folder
     # WARNING: nomenclature. DO NOT CHANGE
 
     export_directory_i = (("exports/" + model_name +
-                          " - " + str(sol_name_i) + " [" + sol_name) + "]" +
+                          " - " + str(outer_sol_name_i) + " [" + sol_name) + "]" +
                           "/" + str(quality) + "x")
     export_file_name = export_directory_i + '/' + file_name
     if zoomextents:
         export_file_name += "_zoomextents"
-    if node in PNG_NAME_DICT:
+    if pg_title in PNG_NAME_DICT:
         export_file_name += ".png"
 
-    print("Exporting node \"" + str(node) + "\" as " + export_file_name)
+    print("Exporting node \"" + str(pg_title) + "\" as " + export_file_name)
     try:
-        if node in PNG_NAME_DICT:
+        if pg_title in PNG_NAME_DICT:
             model.export(export_node, file=export_file_name)
             print("Exported: " + export_file_name)
         else:

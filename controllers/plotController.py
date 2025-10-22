@@ -5,7 +5,7 @@ from functions.inputs import getYOrN
 from constants import EXPORT_DICT
 
 for file in MPH_FILES:
-    model, client, datasets = controller(file, False)
+    model, client, datasets, solutions = controller(file, False)
     print("Generating export nodes in model " + str(model.name()) + "\n")
 
     while True:

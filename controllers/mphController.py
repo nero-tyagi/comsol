@@ -75,11 +75,10 @@ def controller (file, display_node_tree = False):
     if mphLoadedCorrectly:
         datasets.append(get_datasets(model))
         solutions.append(get_solutions(model))
-        print()
         if display_node_tree:
             model_tree = mph.tree(model)
 
         # model.save()
     mphLoadedCorrectly = False
 
-    return model, client, datasets
+    return model, client, datasets, solutions

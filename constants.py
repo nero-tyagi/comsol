@@ -7,6 +7,7 @@ PATH = os.environ["DYLD_LIBRARY_PATH"]
 PRESETS_FOLDER = "presets_files/"
 # WARNING: Do not change to just "exports" because of non-overwrite mode in batch exporting.
 EXPORT_DIRECTORY = "input_files/exports/"
+JOBS_PATH = "input_files/jobs.xml"
 
 ### Presets folder
 

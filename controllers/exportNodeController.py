@@ -13,7 +13,7 @@ for x in EXPORT_PLOT_NODES:
             plots.append(key)
 
 for file in MPH_FILES:
-    model, client, datasets = controller(file, False)
+    model, client, datasets, solutions = controller(file, False)
     view = input("What view would you like to use? 'n' for default view. ")
     if view == 'n':
         view = 'view1'

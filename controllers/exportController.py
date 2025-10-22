@@ -14,9 +14,8 @@ default_qualities = [0.5, 1, 2, 4]
 
 for im, file in enumerate(MPH_FILES):
 
-    model, client, datasets = controller(file, False)
+    model, client, datasets, solutions = controller(file, False)
     overwrite = True
-    solutions = model.solutions()
     if solutions:
         i = 0
         for solution in model.solutions():
