@@ -14,26 +14,25 @@ default_qualities = [0.5, 1, 2, 4]
 
 for im, file in enumerate(MPH_FILES):
 
-    model, client, solutions = controller(file, False)
+    model, client, datasets = controller(file, False)
     overwrite = True
-    current_solutions = solutions[im]
-    i = 0
-    for solution in current_solutions:
-        print(str(i) + ": " + str(solution))
-        i += 1
-    if solution:
-        selected_solution = -1
+    solutions = model.solutions()
+    if solutions:
+        i = 0
+        for solution in model.solutions():
+            print(str(i) + ": " + str(solution))
+            i += 1
         print()
         selected_solution = input("Which solution would you like to choose for the plots? ")
         while True:
             try:
                 selected_solution = int(selected_solution)
                 if selected_solution >= 0:
-                    if selected_solution <= len(solution):
+                    if selected_solution <= len(solutions):
                         break
             except ValueError:
                 print("Wrong input. Please choose again.")
-        node = model / 'solutions' / current_solutions[selected_solution]
+        node = model / 'solutions' / solutions[selected_solution]
         print("Solution node selected: " + str(node))
         nomenclature = input("Prefix for the nomenclature: ")
         overwrite = getYOrN("Would you like to overwrite the existing image files? ")
