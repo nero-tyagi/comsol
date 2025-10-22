@@ -26,6 +26,12 @@ if answer == '2':
         input_list[ix] = item.replace(" ", "")
         input_list[ix] = int(input_list[ix])
 
+    # Removing duplicates and creating the export_node list
+    input_list = list(set(input_list))
+    print("\nYou have chosen the following plots: " + str(input_list))
+    pgs = [EXPORT_DICT[x] for x in input_list]
+    print(pgs)
+
     # Asking the user if they want to clear the existing plots
     clear = getYOrN("\nDo you want to clear the existing plots? ")
 
@@ -33,12 +39,6 @@ if answer == '2':
     overwrite = False
     if not clear:
         overwrite = getYOrN("Do you want to overwrite the existing plots? ")
-
-    # Removing duplicates and creating the export_node list
-    input_list = list(set(input_list))
-    print("\nYou have chosen the following plots: " + str(input_list))
-    pgs = [EXPORT_DICT[x] for x in input_list]
-    print(pgs)
 
     # Generating the requested plots
     models, clients, datasets = controller(MPH_FILES, False)

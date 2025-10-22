@@ -52,7 +52,7 @@ def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset
     plot_groups_node = model/'plot'
     plot_groups_node.create("PlotGroup2D", name=plot_title)
     new_plot_group_node = model/'plot'/plot_title
-    print("Generated plot group: " + str(new_plot_group_node))
+    print("\nGenerated plot group: " + str(new_plot_group_node))
     plot_nodes = []
 
     # Selecting the appropriate subplot depending on the type of the plot
@@ -347,30 +347,31 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
         try:
             files = os.listdir(EXPORT_DIRECTORY)
             print(files)
-            # Separating the files that contain only the current model's name
-            files = [x for x in files if model_name in x]
-            print("Cleaned list of files: ")
-            print(files)
-            max_int = 0
+            try:
+                # Separating the files that contain only the current model's name
+                files = [x for x in files if model_name in x]
+                print("Cleaned list of files: ")
+                print(files)
+                max_int = 0
 
-            # WARNING: This is sensitive to how the folders are named.
-            for file in files:
-                latter_part = str(file).split(model_name + " - ", 1)[1]
-                print("latter_part:", latter_part)
+                # WARNING: This is sensitive to how the folders are named.
+                for file in files:
+                    latter_part = str(file).split(model_name + " - ", 1)[1]
+                    print("latter_part:", latter_part)
 
-                # Find the number before the first '['
-                match = re.search(r'(\d+)', latter_part)
-                if match:
-                    number = int(match.group(1))
-                    if number > max_int:
-                        max_int = number
-            print(max_int)
-            sol_name_i = max_int
+                    # Find the number before the first '['
+                    match = re.search(r'(\d+)', latter_part)
+                    if match:
+                        number = int(match.group(1))
+                        if number > max_int:
+                            max_int = number
+                print(max_int)
+                sol_name_i = max_int
+            except Exception as e:
+                print(e)
         except Exception as e:
-            if os.listdir(EXPORT_DIRECTORY) is None:
-                print("No export directory found.")
+            print("No export directory found.")
             sol_name_i = 0
-
     else:
         print("\nOverwriting existing files...")
 
