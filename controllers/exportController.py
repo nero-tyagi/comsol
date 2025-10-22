@@ -1,5 +1,5 @@
 from controllers.mphController import controller
-from constants import DISPLAY_NODE_TREE
+from constants import DISPLAY_NODE_TREE, EXPORT_DICT
 from input_files.inputVariables import MPH_FILES, EXPORT_PLOT_NODES
 from functions.plots import batch_export_pgs
 from functions.inputs import getYOrN
@@ -10,12 +10,11 @@ from shutil import rmtree as RMTREE
 #todo: before moving on to the next node. Nodes like streamlines take a long time to
 #todo: prepare for export. Preparing those plot nodes multiple times is wasteful.
 
-models, clients, solutions = controller(MPH_FILES, DISPLAY_NODE_TREE)
-print(models)
-
 default_qualities = [0.5, 1, 2, 4]
 
-for im, model in enumerate(models):
+for im, file in enumerate(MPH_FILES):
+
+    model, client, solutions = controller(file, False)
     overwrite = True
     current_solutions = solutions[im]
     i = 0
@@ -63,12 +62,41 @@ for im, model in enumerate(models):
         else:
             qualities = default_qualities
         zoomextents_control = getYOrN("Would you like to export with ZoomExtents enabled? y or n. ")
+
+        export_nodes = EXPORT_PLOT_NODES
+        # Asking which plots to generate
+        while True:
+            answer = input("What plots would you like to export?\n1. Default plots\n2. Custom set of plots\n").lower()
+            if answer in ['1', '2']:
+                if answer == '1':
+                    export_nodes = EXPORT_PLOT_NODES
+                break
+            else:
+                print("Please enter 1 or 2.")
+
+        print()
+
+        for item in EXPORT_DICT:
+            print(str(item) + ": " + str(EXPORT_DICT[item]))
+
+        # Getting the user's desired list of plots
+        input_list = input("\nEnter a comma separated list of plots to generate. ").split(',')
+        for ix, item in enumerate(input_list):
+            input_list[ix] = item.replace(" ", "")
+            input_list[ix] = int(input_list[ix])
+
+        # Removing duplicates and creating the export_node list
+        input_list = list(set(input_list))
+        print("\nYou have chosen the following plots: " + str(input_list))
+        export_nodes = [EXPORT_DICT[x] for x in input_list]
+        print(export_nodes)
+
         for quality in qualities:
             batch_export_pgs(model,
                              overwrite,
                              node,
                              nomenclature,
-                             EXPORT_PLOT_NODES,
+                             export_nodes,
                              quality=quality,
                              zoomextents=False,
                              view=view)
@@ -77,7 +105,7 @@ for im, model in enumerate(models):
                              overwrite,
                              node,
                              nomenclature,
-                             EXPORT_PLOT_NODES,
+                             export_nodes,
                              quality=4,
                              zoomextents=True,
                              view='view1')

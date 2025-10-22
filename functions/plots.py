@@ -221,6 +221,7 @@ def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Veloci
         'aspectratio': float(1.0),
         'background': 'color',
         'colortheme': 'ClassicDark',
+        'customcolor': [float(0), float(0), float(0)],
         'fontsize': int(20),
         'height': float(1000.0),
         'heightmultiple': int(1),
@@ -340,18 +341,18 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
         print("\nChecking existing files for the current model name...")
         try:
             files = os.listdir(EXPORT_DIRECTORY)
-            print(files)
+            # print(files)
             try:
                 # Separating the files that contain only the current model's name
                 files = [x for x in files if model_name in x]
-                print("Cleaned list of files: ")
-                print(files)
+                # print("Cleaned list of files: ")
+                # print(files)
                 max_int = 0
 
                 # WARNING: This is sensitive to how the folders are named.
                 for file in files:
                     latter_part = str(file).split(model_name + " - ", 1)[1]
-                    print("latter_part:", latter_part)
+                    # print("latter_part:", latter_part)
 
                     # Find the number before the first '['
                     match = re.search(r'(\d+)', latter_part)

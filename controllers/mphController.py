@@ -51,35 +51,35 @@ def mph_import(file, file_name):
 # input_files/inputVariables.py. Also, confirm that the file you hope to import has the
 # extension ".mph".
 
-def controller (file_paths, display_node_tree = False):
+def controller (file, display_node_tree = False):
     mphLoadedCorrectly = False
     models = []
     clients = []
     datasets = []
     solutions = []
-    for file in file_paths:
-        file_name = os.path.basename(file)
+    file_name = os.path.basename(file)
 
-        # Importing the mph file
-        model, client = mph_import(file, file_name)
-        models.append(model)
-        clients.append(clients)
+    # Importing the mph file
+    model, client = mph_import(file, file_name)
+    models.append(model)
+    clients.append(clients)
 
-        # Checking if the client could be loaded properly
-        if client is not None and model is not None:
-            mphLoadedCorrectly = True
-        elif client is None:
-            print("Client couldn't be loaded")
-        elif model is None:
-            print("Model couldn't be loaded")
+    # Checking if the client could be loaded properly
+    if client is not None and model is not None:
+        mphLoadedCorrectly = True
+    elif client is None:
+        print("Client couldn't be loaded")
+    elif model is None:
+        print("Model couldn't be loaded")
 
-        if mphLoadedCorrectly:
-            datasets.append(get_datasets(model))
-            solutions.append(get_solutions(model))
-            print()
-            if display_node_tree:
-                model_tree = mph.tree(model)
+    if mphLoadedCorrectly:
+        datasets.append(get_datasets(model))
+        solutions.append(get_solutions(model))
+        print()
+        if display_node_tree:
+            model_tree = mph.tree(model)
 
-            # model.save()
-        mphLoadedCorrectly = False
-    return models, clients, datasets
+        # model.save()
+    mphLoadedCorrectly = False
+
+    return model, client, datasets

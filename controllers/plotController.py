@@ -4,9 +4,8 @@ from functions.plots import generate_default_pgs, generate_pgs
 from functions.inputs import getYOrN
 from constants import EXPORT_DICT
 
-models, clients, datasets = controller(MPH_FILES, False)
-
-for model in models:
+for file in MPH_FILES:
+    model, client, datasets = controller(file, False)
     print("Generating export nodes in model " + str(model.name()) + "\n")
 
     while True:
@@ -45,4 +44,4 @@ for model in models:
             overwrite = getYOrN("Do you want to overwrite the existing plots? ")
 
         # Generating the requested plots
-        generate_pgs(models, pgs, clearPlots=clear, overwritePlots=overwrite, overwriteNodes=overwrite)
+        generate_pgs(model, pgs, clearPlots=clear, overwritePlots=overwrite, overwriteNodes=overwrite)

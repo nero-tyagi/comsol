@@ -5,8 +5,6 @@ from constants import EXPORT_DICT
 from functions.plots import generate_export_node, default_plots
 from functions.inputs import getYOrN
 
-models, clients, datasets = controller(MPH_FILES, False)
-
 # Accessing plot keys from the export_plot_nodes list using the export dictionary
 plots = []
 for x in EXPORT_PLOT_NODES:
@@ -14,7 +12,8 @@ for x in EXPORT_PLOT_NODES:
         if val == x:
             plots.append(key)
 
-for model in models:
+for file in MPH_FILES:
+    model, client, datasets = controller(file, False)
     view = input("What view would you like to use? 'n' for default view. ")
     if view == 'n':
         view = 'view1'
