@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+    <plotGroupsCatalog>
+        <plotGroup id="1" name="Continuous Phase Velocity" />
+        <plotGroup id="2" name="Dispersed Phase Velocity" />
+        <plotGroup id="3" name="Pressure" />
+        <plotGroup id="4" name="Streamlines (Uc)" />
+        <plotGroup id="5" name="Separation Velocity (Ud - Uc), Arrow Surface" />
+        <plotGroup id="6" name="Dispersed Phase Volume Fraction" />
+    </plotGroupsCatalog>
+    <workItems>
+        <workItem>
+            <mphFile>SDPR2</mphFile>
+            <solElements>
+                <solElement sol="Parametric Solutions 1 - Hs = 0.3" view="view3" />
+                <solElement sol="Parametric Solutions 1 - Hs = 1" view="view2" />
+            </solElements>
+            <plotGroups>
+                <plotGroup>1</plotGroup>
+                <plotGroup>2</plotGroup>
+                <plotGroup>3</plotGroup>
+                <plotGroup>4</plotGroup>
+                <plotGroup>5</plotGroup>
+                <plotGroup>6</plotGroup>
+            </plotGroups>
+            <qualities>
+                <quality>0.5</quality>
+                <quality>1</quality>
+                <quality>2</quality>
+                <quality>4</quality>
+            </qualities>
+        </workItem>
+        <workItem>
+            <mphFile>SDPR3</mphFile>
+            <solElements>
+                <solElement sol="aoa=0, Hs = 0.3" view="view4" />
+                <solElement sol="aoa=0, Hs = 1" view="view3" />
+            </solElements>
+            <plotGroups>
+                <plotGroup>1</plotGroup>
+                <plotGroup>2</plotGroup>
+                <plotGroup>3</plotGroup>
+                <plotGroup>4</plotGroup>
+                <plotGroup>5</plotGroup>
+                <plotGroup>6</plotGroup>
+            </plotGroups>
+            <qualities>
+                <quality>0.5</quality>
+                <quality>1</quality>
+                <quality>2</quality>
+                <quality>4</quality>
+            </qualities>
+        </workItem>
+        <workItem>
+            <mphFile>SDPR4</mphFile>
+            <solElements>
+                <solElement sol="aoa = 0.34907, Hs = 0.3" view="view2" />
+                <solElement sol="aoa = 0.34907, Hs = 1" view="view3" />
+            </solElements>
+            <plotGroups>
+                <plotGroup>1</plotGroup>
+                <plotGroup>2</plotGroup>
+                <plotGroup>3</plotGroup>
+                <plotGroup>4</plotGroup>
+                <plotGroup>5</plotGroup>
+                <plotGroup>6</plotGroup>
+            </plotGroups>
+            <qualities>
+                <quality>0.5</quality>
+                <quality>1</quality>
+                <quality>2</quality>
+                <quality>4</quality>
+            </qualities>
+        </workItem>
+        <workItem>
+            <mphFile>SDPR5</mphFile>
+            <solElements>
+                <solElement sol="aoa=10, Hs = 0.3" view="view3" />
+                <solElement sol="aoa=10, Hs = 1" view="view2" />
+            </solElements>
+            <plotGroups>
+                <plotGroup>1</plotGroup>
+                <plotGroup>2</plotGroup>
+                <plotGroup>3</plotGroup>
+                <plotGroup>4</plotGroup>
+                <plotGroup>5</plotGroup>
+                <plotGroup>6</plotGroup>
+            </plotGroups>
+            <qualities>
+                <quality>0.5</quality>
+                <quality>1</quality>
+                <quality>2</quality>
+                <quality>4</quality>
+            </qualities>
+        </workItem>
+        <workItem>
+            <mphFile>SDPR6</mphFile>
+            <solElements>
+                <solElement sol="Ws=1, Hs=0.3,0.7,1" view="view2" />
+                <solElement sol="Ws=2, Hs=0.3,0.7,1" view="view2" />
+                <solElement sol="Ws=1, Hs=2" view="view3" />
+                <solElement sol="Ws=2, Hs=2" view="view3" />
+            </solElements>
+            <plotGroups>
+                <plotGroup>1</plotGroup>
+                <plotGroup>2</plotGroup>
+                <plotGroup>3</plotGroup>
+                <plotGroup>4</plotGroup>
+                <plotGroup>5</plotGroup>
+                <plotGroup>6</plotGroup>
+            </plotGroups>
+            <qualities>
+                <quality>0.5</quality>
+                <quality>1</quality>
+                <quality>2</quality>
+                <quality>4</quality>
+            </qualities>
+        </workItem>
+        <workItem>
+            <mphFile>SDPR7</mphFile>
+            <solElements>
+                <solElement sol="Ws = 5, Hs = 0.3, 0.7, 1" view="view2" />
+                <solElement sol="Ws = 5, Hs = 2" view="view3" />
+            </solElements>
+            <plotGroups>
+                <plotGroup>1</plotGroup>
+                <plotGroup>2</plotGroup>
+                <plotGroup>3</plotGroup>
+                <plotGroup>4</plotGroup>
+                <plotGroup>5</plotGroup>
+                <plotGroup>6</plotGroup>
+            </plotGroups>
+            <qualities>
+                <quality>0.5</quality>
+                <quality>1</quality>
+                <quality>2</quality>
+                <quality>4</quality>
+            </qualities>
+        </workItem>
+    </workItems>
+</jobs>

@@ -16,6 +16,8 @@ __pycache__
 /input_files/exports/*
 /input_files/Exports/*
 !/input_files/inputVariables.py
+!/input_files/jobs.xml
+!/input_files/jobs_template.xml
 output_files/
 /Exports/
 !*/exports/

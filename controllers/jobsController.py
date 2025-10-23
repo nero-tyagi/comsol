@@ -5,6 +5,8 @@ from functions.plots import generate_pgs, generate_export_node, export_2D_PG
 import re
 from os import listdir as listdir
 from constants import EXPORT_DIRECTORY
+import tkinter as tk
+from tkinter import ttk
 
 jobs = parse_jobs(JOBS_PATH)
 
@@ -28,6 +30,25 @@ print()
 plot_groups_catalog = jobs.plot_groups_catalog
 
 jobs_done = 0
+
+# Opening up a progress bar:
+# --- tiny progress window ---
+root = tk.Tk()
+root.title("Export progress")
+root.resizable(False, False)
+
+count_var = tk.StringVar(value="0%")
+ttk.Label(root, textvariable=count_var).grid(row=0, column=0, padx=12, pady=(12, 6))
+
+progress_var = tk.IntVar(value=0)
+pb = ttk.Progressbar(root, orient="horizontal", mode="determinate",
+                     maximum=total_jobs, variable=progress_var, length=360)
+pb.grid(row=1, column=0, padx=12, pady=(0, 12))
+
+# Show the window immediately
+root.update_idletasks()
+root.update()
+
 # Iterating over the work items
 for workItem in jobs.work_items:
 
@@ -101,7 +122,8 @@ for workItem in jobs.work_items:
             # to the pg
             dsets = model.datasets()
             dset = ""
-            name = str(sol_node).split('/', 1)[1]
+            name = sol_title
+            # name = str(sol_node).split('/', 1)[1]
             for set in dsets:
                 if name in set:
                     dset = set
@@ -145,8 +167,15 @@ for workItem in jobs.work_items:
                                  model_name=workItem.mph_file,
                                  quality=q,
                                  zoomextents=False)
-                    jobs_done += 1
                 outer_sol_i += 1
                 outer_sol_name_i += 1
 
-print("Jobs done: " + str(jobs_done))
+            jobs_done += workItem.qualities.__len__()
+            # Updating the progress bar
+            progress_var.set(jobs_done)
+            count_var.set(str(int(jobs_done / total_jobs * 100)) + "%")
+            root.update_idletasks()
+            root.update()
+
+print("Jobs done: " + str(jobs_done) + "/" + str(total_jobs))
+root.destroy()
