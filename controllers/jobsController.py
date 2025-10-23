@@ -124,13 +124,11 @@ for workItem in jobs.work_items:
             dsets = model.datasets()
             dset = ""
             name = sol_title
-            # name = str(sol_node).split('/', 1)[1]
             for set in dsets:
                 if name in set:
                     dset = set
             dset_node = model / 'datasets' / dset
             dset = dset_node.tag()
-            # dset = get_dset_tag_for_sol(model, sol_node, datasets)
             outer_solutions = sol_node.children()
 
             outer_sol_i = 1
