@@ -119,5 +119,3 @@ def expand_jobs(jobs: Jobs):
                 pg_name = jobs.plot_groups_catalog[pid]
                 for q in wi.qualities:
                     yield (wi.mph_file, wi.regeneratePlots, se.sol, se.view, pid, pg_name, q)
-
-
