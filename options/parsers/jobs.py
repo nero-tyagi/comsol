@@ -12,6 +12,7 @@ class SolElement:
 @dataclass(frozen=True)
 class WorkItem:
     mph_file: str
+    regeneratePlots: bool
     sol_elements: list[SolElement]
     plot_group_ids: list[int]
     qualities: list[float]
@@ -50,6 +51,7 @@ def parse_jobs(xml_path: str | Path) -> Jobs:
 
     work_items: list[WorkItem] = []
     for wi in root.findall("./workItems/workItem"):
+        regeneratePlots = str((wi.get("regeneratePlots"))).lower() == "true"
         mph_file = _text(wi.find("./mphFile"))
         if not mph_file:
             raise ValueError("WorkItem is missing an mphFile")
@@ -94,6 +96,7 @@ def parse_jobs(xml_path: str | Path) -> Jobs:
 
         work_items.append(WorkItem(
             mph_file=mph_file,
+            regeneratePlots=regeneratePlots,
             sol_elements=sol_elements,
             plot_group_ids=pg_ids,
             qualities=qualities
@@ -115,6 +118,6 @@ def expand_jobs(jobs: Jobs):
             for pid in wi.plot_group_ids:
                 pg_name = jobs.plot_groups_catalog[pid]
                 for q in wi.qualities:
-                    yield (wi.mph_file, se.sol, se.view, pid, pg_name, q)
+                    yield (wi.mph_file, wi.regeneratePlots, se.sol, se.view, pid, pg_name, q)
 
 

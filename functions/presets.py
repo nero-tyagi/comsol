@@ -53,43 +53,33 @@ def read_presets(file):
 
 # Generates files containing properties of selected plot groups in a model. These
 # properties files can be used to create presets. Modify whatever is needed in these
-# properties files and then move them into the presets folder.
-def genProps(model, plot_groups=None, node='plots'):
+# properties files and then move them into the presets directory.
 
-    if not plot_groups:
-        plot_groups = [
-            model / node / 'Continuous Phase Velocity',
-            model / node / 'Dispersed Phase Velocity',
-            model / node / 'Pressure',
-            model / node / 'Streamlines (Uc)',
-            model / node / 'Separation Velocity (Ud - Uc), Arrow Surface',
-            model / node / 'Dispersed Phase Volume Fraction'
-        ]
-    node_name = 'Plot'
-    if node == 'exports':
-        node_name = 'Export'
+# node_type: plots or exports
+def write_presets(model, plot_group_nodes=None, node_type='plots'):
+
     messages = ""
-    for pg in plot_groups:
+    for pg in plot_group_nodes:
         messages += (pg.name()
-                     + "\n\t" + node_name + " path: " + str(pg.path)
-                     + "\n\t" + node_name + " tag: " + str(pg.tag())
-                     + "\n\t" + node_name + " type: " + str(pg.type())
+                     + "\n\t" + node_type + " path: " + str(pg.path)
+                     + "\n\t" + node_type + " tag: " + str(pg.tag())
+                     + "\n\t" + node_type + " type: " + str(pg.type())
                      + "\n")
         properties, properties_readable = get_node_properties(pg)
-        with open(PRESETS_FOLDER + "new/" + node + "/" + pg.name() + ".txt", "w") as file:
+        with open(PRESETS_FOLDER + "new/" + node_type + "/" + pg.name() + ".txt", "w") as file:
             file.write(str(properties))
-        with open(PRESETS_FOLDER + "new/" + node + "/" + "READABLE_" + pg.name() + ".txt", "w") as file:
+        with open(PRESETS_FOLDER + "new/" + node_type + "/" + "READABLE_" + pg.name() + ".txt", "w") as file:
             file.write(str(properties_readable))
 
-        if node == 'plots':
+        if node_type == 'plots':
             plots = pg.children()
             for plot in plots:
                 messages += ("\n\t" + plot.name()
-                             + "\n\t\t" + node_name + " path: " + str(plot.path)
-                             + "\n\t\t" + node_name + " tag: " + str(plot.tag())
-                             + "\n\t\t" + node_name + " type: " + str(plot.type()))
+                             + "\n\t\t" + node_type + " path: " + str(plot.path)
+                             + "\n\t\t" + node_type + " tag: " + str(plot.tag())
+                             + "\n\t\t" + node_type + " type: " + str(plot.type()))
                 properties, properties_readable = get_node_properties(plot)
-                path = PRESETS_FOLDER + "new/" + node + "/" + pg.name() + "/"
+                path = PRESETS_FOLDER + "new/" + node_type + "/" + pg.name() + "/"
                 if not os.path.exists(path):
                     os.mkdir(path)
                 with open(path + plot.name() + ".txt", "w") as file:
@@ -109,5 +99,5 @@ def genProps(model, plot_groups=None, node='plots'):
                             file.write(str(properties_readable))
 
             messages += "\n\n"
-    with open(PRESETS_FOLDER + "new/" + node + "/" + "log.txt", "w") as file:
+    with open(PRESETS_FOLDER + "new/" + node_type + "/" + "log.txt", "w") as file:
         file.write(messages)

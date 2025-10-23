@@ -75,14 +75,3 @@ def clearExportNodes(model):
     export_nodes = model/'exports'
     for node in export_nodes:
         node.remove()
-
-def get_dset_tag_for_sol(model, sol_node, datasets):
-    dset = ""
-    name = str(sol_node).split('/', 1)[1]
-    for set in datasets:
-        if name in set:
-            dset = set
-    print(dset)
-    dset_node = model / 'datasets' / dset
-    dset = dset_node.tag()
-    return dset

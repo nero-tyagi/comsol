@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ignoreLists>
+    <ignoreList name="plotGroup">
+        <ignore>data</ignore>
+        <ignore>looplevel</ignore>
+        <ignore>outersolnum</ignore>
+        <ignore>outertype</ignore>
+        <ignore>solnum</ignore>
+        <ignore>solrepresentation</ignore>
+        <ignore>solutionparams</ignore>
+        <ignore>title</ignore>
+    </ignoreList>
+    <ignoreList name="plot">
+        <ignore>actuallevels</ignore>
+        <ignore>actuallevelslegend</ignore>
+        <ignore>labels</ignore>
+        <ignore>outersolnum</ignore>
+        <ignore>outertype</ignore>
+        <ignore>plotinfo</ignore>
+        <ignore>rangeactualminmax</ignore>
+        <ignore>rangecolormax</ignore>
+        <ignore>rangecolormin</ignore>
+        <ignore>rangedatamax</ignore>
+        <ignore>rangedatamin</ignore>
+        <ignore>rangeminpositive</ignore>
+        <ignore>rangeunit</ignore>
+        <ignore>rowindex</ignore>
+        <ignore>solnum</ignore>
+        <ignore>title</ignore>
+        <ignore>unit</ignore>
+    </ignoreList>
+    <ignoreList name="export">
+        <ignore>epsfilename</ignore>
+        <ignore>heightexact</ignore>
+        <ignore>jpegfilename</ignore>
+        <ignore>lastwrittenfile</ignore>
+        <ignore>sizedesc</ignore>
+        <ignore>tifffilename</ignore>
+    </ignoreList>
+</ignoreLists>

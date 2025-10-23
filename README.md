@@ -38,7 +38,7 @@ it with "macarm64".
 ## How to use this code
 Once you create all the plots and edit them however you like in a COMSOL file, you can use that
 file to generate presets of those plots for all your future files. Add the name(s) of the COMSOL
-files in the `input_files/inputVariables.py` file. Inset your COMSOL file(s) in the `input_files`
+files in the `data/inputVariables.py` file. Inset your COMSOL file(s) in the `data`
 directory. New preset files are exported in the `new_plot_presets` folder. This folder contains
 directories for each plotgroup that you have in the COMSOL file, and each directory contains a
 file for each plot in that plotgroup. The parent directory also contains a file for each plotgroup.
@@ -82,7 +82,7 @@ solution count from the last existing solution).
 6. whether to export additional plots with zoomextents enabled (the zoomextent property spans the view 
 to contain the entire domain.)
 
-The code will then create directories inside the 'input_files/exports' directory for each
+The code will then create directories inside the 'data/exports' directory for each
 solution (if the solution node you choose is a parametric solution). The naming scheme for the
 directories is:
 
@@ -108,7 +108,7 @@ The code is organized in the following directories:
 : Contains the functions that are used by the controllers. The functions perform
 various tasks such as reading and writing files, generating presets, and generating plots.
 
-- `input_files`
+- `data`
 : Contains the input files that are used by the controllers. Edit `inputVariables.py`
 to change the input files.
 

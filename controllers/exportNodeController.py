@@ -1,16 +1,7 @@
 from controllers.mphController import controller
-from input_files.inputVariables import MPH_FILES
-from input_files.inputVariables import EXPORT_PLOT_NODES
-from constants import EXPORT_DICT
-from functions.plots import generate_export_node, default_plots
+from constants import PLOTGROUPS, MPH_FILES
+from functions.exporting import generate_export_node
 from functions.inputs import getYOrN
-
-# Accessing plot keys from the export_plot_nodes list using the export dictionary
-plots = []
-for x in EXPORT_PLOT_NODES:
-    for key, val in EXPORT_DICT.items():
-        if val == x:
-            plots.append(key)
 
 for file in MPH_FILES:
     model, client, datasets, solutions = controller(file, False)
@@ -49,8 +40,8 @@ for file in MPH_FILES:
     overwrite = getYOrN("Would you like to overwrite the existing export nodes? ")
     print("Overwrite: " + str(overwrite))
 
-    for plot in plots:
-        generate_export_node(model, overwrite, pg_name=default_plots.get(plot),
+    for plotgroup in PLOTGROUPS:
+        generate_export_node(model, overwrite, pg_name=plotgroup.name,
                              view=view,
                              quality=quality,
                              zoomextents=zoomextents_control)

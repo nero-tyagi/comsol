@@ -48,7 +48,7 @@ def mph_import(file, file_name):
 
 # Checking the directory for available files and then loading it using the MPh library.
 # If the function can't find the input files, please check the directory and filenames in
-# input_files/inputVariables.py. Also, confirm that the file you hope to import has the
+# constants.py. Also, confirm that the file you hope to import has the
 # extension ".mph".
 
 def controller (file, display_node_tree = False):
@@ -74,7 +74,7 @@ def controller (file, display_node_tree = False):
 
     if mphLoadedCorrectly:
         datasets.append(get_datasets(model))
-        solutions.append(get_solutions(model))
+        solutions = get_solutions(model)
         if display_node_tree:
             model_tree = mph.tree(model)
 

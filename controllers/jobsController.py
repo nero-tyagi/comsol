@@ -1,7 +1,7 @@
-from functions.jobs import parse_jobs, expand_jobs
+from options.parsers.jobs import parse_jobs, expand_jobs
 from constants import JOBS_PATH
 from mphController import controller
-from functions.plots import generate_pgs, generate_export_node, export_2D_PG
+from functions.exporting import generate_pgs, generate_export_node, export_2D_PG
 import re
 from os import listdir as listdir
 from constants import EXPORT_DIRECTORY
@@ -17,7 +17,7 @@ for pid, name in sorted(jobs.plot_groups_catalog.items()):
 print("Jobs:")
 total_jobs = 0
 for i, combo in enumerate(expand_jobs(jobs)):
-    mph, sol, view, pid, pg_name, q = combo
+    mph, regen, sol, view, pid, pg_name, q = combo
     print(f"- {mph} | {sol} | {view} | PG#{pid} ({pg_name}) | quality={q}")
     total_jobs += 1
 print()
@@ -54,7 +54,7 @@ for workItem in jobs.work_items:
 
     print(f"- {workItem.mph_file} |")
     # Loading the model within each work item
-    mph_file_name = "input_files/"
+    mph_file_name = "data/"
     mph_file_name += workItem.mph_file
     mph_file_name += ".mph"
     model, client, datasets, solutions = controller(mph_file_name, False)
@@ -64,11 +64,12 @@ for workItem in jobs.work_items:
         pgs.append(jobs.plot_groups_catalog[id])
 
     # Processing the plot nodes before exporting them
-    generate_pgs(model,
-                 pgs,
-                 clearPlots=False,
-                 overwritePlots=True,
-                 overwriteNodes=True)
+    if workItem.regeneratePlots:
+        generate_pgs(model,
+                     pgs,
+                     clearPlots=False,
+                     overwritePlots=True,
+                     overwriteNodes=True)
 
     for pg in pgs:
 

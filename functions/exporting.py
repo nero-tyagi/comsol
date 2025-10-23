@@ -1,19 +1,18 @@
-from functions.presets import read_presets
-from functions.mph import get_datasets, clearPlotGroups, get_dset_tag_for_sol
-from constants import *
-from constants import (PNG_NAME_DICT,
-                       EXPORT_DIRECTORY)
+from typing import Any
+from os import listdir
 import re
+from dataclasses import dataclass
+import xml.etree.ElementTree as ET
+from pathlib import Path
 
-# Use this list to pass an array of a combination of these numbers to generate plots
-default_plots = {
-    1: 'Continuous Phase Velocity',
-    2: 'Dispersed Phase Velocity',
-    3: 'Pressure',
-    4: 'Streamlines (Uc)',
-    5: 'Separation Velocity (Ud - Uc), Arrow Surface',
-    6: 'Dispersed Phase Volume Fraction',
-}
+from functions.presets import read_presets
+from functions.mph import get_datasets, clearPlotGroups
+from constants import (EXPORT_DIRECTORY,
+                       PLOTGROUPS,
+                       PRESETS_FOLDER,
+                       EXPORT_IGNORE_LIST,
+                       PG_IGNORE_LIST,
+                       PLOT_IGNORE_LIST)
 
 # Generates a plot group, populates it with plots, changes all properties to preset properties, and handles exceptions
 def generate_pg(model, overwritePlots, pg_name="Continuous Phase Velocity", dset=''):
@@ -254,7 +253,6 @@ def generate_export_node(model, overwriteNodes, pg_name="Continuous Phase Veloci
 # Generates all the default plot groups using the existing presets
 def generate_default_pgs(model, clearPlots=False, overwritePlots=False):
 
-    plots = [1, 2, 3, 4, 5, 6]
     # Clearing all pre-existing plots
     if clearPlots:
         clearPlotGroups(model)
@@ -267,9 +265,9 @@ def generate_default_pgs(model, clearPlots=False, overwritePlots=False):
         dset_node = model / 'datasets' / model.solutions()[0]
         dset_tag = dset_node.tag()
 
-    for plot in plots:
-        generate_pg(model, overwritePlots, pg_name=default_plots.get(plot), dset=dset_tag)
-        generate_export_node(model, True, pg_name=default_plots.get(plot), view='view1')
+    for plotgroup in PLOTGROUPS:
+        generate_pg(model, overwritePlots, pg_name=plotgroup.name, dset=dset_tag)
+        generate_export_node(model, True, pg_name=plotgroup.name, view='view1')
 
     print("Saving model " + str(model.name()) + "...")
     model.save()
@@ -295,22 +293,13 @@ def generate_pgs(model, pgs, clearPlots=False, overwritePlots=False, overwriteNo
     model.save()
     print("Model saved. Exiting.\n")
 
-
-
 def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
-                     export_nodes, quality=1, zoomextents=False, view='view1'):
-
-    print("Exporting with quality settings: Quality = " + str(quality) +
-          "x and ZoomExtents = False...")
-    for node in export_nodes:
-        generate_export_node(model,
-                             True,
-                             pg_name=node,
-                             view=view,
-                             quality=quality,
-                             zoomextents=zoomextents)
+                     pg_names, qualities=None, zoomextents=False, view='view1'):
 
     # Using the given node to identify the outer solutions
+    if qualities is None:
+        qualities = [1]
+
     outer_solutions = solution_node.children()
 
     if not outer_solutions:
@@ -340,7 +329,7 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
     if not overwrite_mode:
         print("\nChecking existing files for the current model name...")
         try:
-            files = os.listdir(EXPORT_DIRECTORY)
+            files = listdir(EXPORT_DIRECTORY)
             # print(files)
             try:
                 # Separating the files that contain only the current model's name
@@ -370,20 +359,31 @@ def batch_export_pgs(model, overwrite_mode, solution_node, model_name,
     else:
         print("\nOverwriting existing files...")
 
-    sol_name_i += 1
-    sol_i = 1
-    for sol in outer_solutions:
-        for node in export_nodes:
-            plot_node = model / 'plots' / str(node)
-            export_node = model / 'exports' / node
-            plot_node.property('data', str(dset))
-            plot_node.property('outersolnum', str(sol_i))
-            model_name = model_name
-            sol_name = sol.name()
-            export_2D_PG(model, node, export_node, sol_name, sol_name_i,
-                         model_name, quality, zoomextents)
-        sol_i += 1
-        sol_name_i += 1
+    for quality in qualities:
+        sol_name_i = 1
+        sol_i = 1
+        print("Exporting with quality settings: Quality = " + str(quality) +
+              "x and ZoomExtents = False...")
+        for pg_name in pg_names:
+            generate_export_node(model,
+                                 True,
+                                 pg_name=pg_name,
+                                 view=view,
+                                 quality=quality,
+                                 zoomextents=zoomextents)
+        for sol in outer_solutions:
+            for pg_name in pg_names:
+                plot_node = model / 'plots' / str(pg_name)
+                export_node = model / 'exports' / pg_name
+                plot_node.property('data', str(dset))
+                plot_node.property('outersolnum', str(sol_i))
+                model_name = model_name
+                sol_name = sol.name()
+                export_2D_PG(model, pg_name, export_node, sol_name, sol_name_i,
+                             model_name, quality, zoomextents)
+
+            sol_i += 1
+            sol_name_i += 1
 
     # Saving the model
     model.save()
@@ -393,8 +393,10 @@ def export_2D_PG(model, pg_title, export_node, sol_name, outer_sol_name_i,
                  model_name, quality, zoomextents):
 
     # Initializing variables for the name of the png
-    if pg_title in PNG_NAME_DICT:
-        file_name = PNG_NAME_DICT.get(pg_title)
+    if pg_title in [x.name for x in PLOTGROUPS]:
+        for pg in PLOTGROUPS:
+            if pg_title == pg.name:
+                file_name = pg.png_name
     # WARNING: Searching for the next solution count for the folder names in
     # WARNING: non overwrite mode of exporting plots depends on this folder
     # WARNING: nomenclature. DO NOT CHANGE
@@ -405,16 +407,12 @@ def export_2D_PG(model, pg_title, export_node, sol_name, outer_sol_name_i,
     export_file_name = export_directory_i + '/' + file_name
     if zoomextents:
         export_file_name += "_zoomextents"
-    if pg_title in PNG_NAME_DICT:
         export_file_name += ".png"
 
     print("Exporting node \"" + str(pg_title) + "\" as " + export_file_name)
     try:
-        if pg_title in PNG_NAME_DICT:
-            model.export(export_node, file=export_file_name)
-            print("Exported: " + export_file_name)
-        else:
-            print("Couldn't find a suitable name for this plot group.")
+        model.export(export_node, file=export_file_name)
+        print("Exported: " + export_file_name)
     except Exception as e:
         print("Could not export: " + export_file_name)
         print(e)

@@ -1,8 +1,7 @@
 from controllers.mphController import controller
-from input_files.inputVariables import MPH_FILES
-from functions.plots import generate_default_pgs, generate_pgs
+from functions.exporting import generate_default_pgs, generate_pgs
 from functions.inputs import getYOrN
-from constants import EXPORT_DICT
+from constants import PLOTGROUPS, MPH_FILES
 
 for file in MPH_FILES:
     model, client, datasets, solutions = controller(file, False)
@@ -20,8 +19,8 @@ for file in MPH_FILES:
 
     if answer == '2':
         print()
-        for item in EXPORT_DICT:
-            print(str(item) + ": " + str(EXPORT_DICT[item]))
+        for item in PLOTGROUPS:
+            print(str(item.id) + ": " + str(item.name))
 
         # Getting the user's desired list of plots
         input_list = input("\nEnter a comma separated list of plots to generate. ").split(',')
@@ -31,9 +30,16 @@ for file in MPH_FILES:
 
         # Removing duplicates and creating the export_node list
         input_list = list(set(input_list))
-        print("\nYou have chosen the following plots: " + str(input_list))
-        pgs = [EXPORT_DICT[x] for x in input_list]
-        print(pgs)
+
+        pgs = []
+        for item in input_list:
+            for pg in PLOTGROUPS:
+                if pg.id == item:
+                    pgs.append(pg.name)
+
+        print("\nYou have chosen the following plots: ")
+        for ix, item in enumerate(pgs):
+            print(str(item))
 
         # Asking the user if they want to clear the existing plots
         clear = getYOrN("\nDo you want to clear the existing plots? ")
