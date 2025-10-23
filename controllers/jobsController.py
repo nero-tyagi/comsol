@@ -18,7 +18,7 @@ print("Jobs:")
 total_jobs = 0
 for i, combo in enumerate(expand_jobs(jobs)):
     mph, regen, sol, view, pid, pg_name, q = combo
-    print(f"- {mph} | {sol} | {view} | PG#{pid} ({pg_name}) | quality={q}")
+    print(f"- {mph} | {regen} | {sol} | {view} | PG#{pid} ({pg_name}) | quality={q}")
     total_jobs += 1
 print()
 print("Total number of jobs: " + str(total_jobs))

@@ -24,8 +24,13 @@ class Jobs:
 
 # Parsers
 
+def _as_bool(s: str | None) -> bool:
+    return (s or "").strip().lower() in {"true", "1", "yes", "y", "on"}
+
+
 def _text(e):
     return (e.text or "").strip()
+
 
 def parse_jobs(xml_path: str | Path) -> Jobs:
     tree = ET.parse(xml_path)
@@ -51,7 +56,8 @@ def parse_jobs(xml_path: str | Path) -> Jobs:
 
     work_items: list[WorkItem] = []
     for wi in root.findall("./workItems/workItem"):
-        regeneratePlots = str((wi.get("regeneratePlots"))).lower() == "true"
+        raw = wi.findtext("./regeneratePlots", default="false")
+        regeneratePlots = _as_bool(raw)
         mph_file = _text(wi.find("./mphFile"))
         if not mph_file:
             raise ValueError("WorkItem is missing an mphFile")
@@ -118,4 +124,4 @@ def expand_jobs(jobs: Jobs):
             for pid in wi.plot_group_ids:
                 pg_name = jobs.plot_groups_catalog[pid]
                 for q in wi.qualities:
-                    yield (wi.mph_file, wi.regeneratePlots, se.sol, se.view, pid, pg_name, q)
+                    yield wi.mph_file, wi.regeneratePlots, se.sol, se.view, pid, pg_name, q
