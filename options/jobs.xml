@@ -10,15 +10,18 @@
     </plotGroupsCatalog>
     <workItems>
         <workItem>
-            <mphFile>SDPR6</mphFile>
+            <mphFile>SDPR8</mphFile>
             <regeneratePlots>True</regeneratePlots>
             <solElements>
-                <solElement sol="Parametric, Ws=1; Hs=0.3,0.7,1" view="view2" />
-                <solElement sol="Parametric, Ws=2; Hs=0.3,0.7,1" view="view2" />
-                <solElement sol="Parametric, Ws=1; Hs=2" view="view3" />
-                <solElement sol="Parametric, Ws=2; Hs=2" view="view3" />
+                <solElement sol="Hs = 1.5" view="view2" />
+                <solElement sol="Hs = 0.3, 0.4" view="view3" />
+                <solElement sol="Hs = 0.06, 0.2" view="view4" />
             </solElements>
             <plotGroups>
+                <plotGroup>1</plotGroup>
+                <plotGroup>2</plotGroup>
+                <plotGroup>3</plotGroup>
+                <plotGroup>4</plotGroup>
                 <plotGroup>5</plotGroup>
                 <plotGroup>6</plotGroup>
             </plotGroups>
