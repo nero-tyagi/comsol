@@ -17,3 +17,5 @@ for i in range(2, len(df['r'])):
 
 total_flow_rate = sum(mdot)
 print(total_flow_rate)
+
+create_mass_flow_scatter()
