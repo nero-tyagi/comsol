@@ -21,3 +21,6 @@ __pycache__
 output_files/
 /Exports/
 !*/exports/
+
+# Test controller
+/controllers/testController.py

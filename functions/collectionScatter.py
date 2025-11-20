@@ -54,7 +54,7 @@ def create_mass_flow_scatter(filename_prefix = filename_prefix):
     # fig.show()
 
 def calc_mdot():
-    column_names = ['r', 'Ws', 'Hs', 'theta', 'phid', 'udz']
+    column_names = ['r', 'Hs', 'theta', 'theta_c', 'aoa',  'phid', 'udz']
     df = pd.read_table("data/outlet.txt", sep='\t', skiprows=9, header=None,
                        names=column_names, dtype=float)
 
