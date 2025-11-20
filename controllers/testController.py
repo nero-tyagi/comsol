@@ -1,4 +1,3 @@
-from constants import EXPORT_PRESETS_PATH
-from options.parsers.exportPresets import parse_export_presets
+from functions.collectionScatter import create_mass_flow_scatter
 
-print(parse_export_presets(EXPORT_PRESETS_PATH))
+create_mass_flow_scatter()
