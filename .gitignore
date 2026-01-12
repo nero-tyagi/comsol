@@ -13,6 +13,7 @@ __pycache__
 
 # Input and export folders
 /data/*
+!/data/
 /data/exports/*
 /data/Exports/*
 !/data/jobs.xml
@@ -20,3 +21,6 @@ __pycache__
 output_files/
 /Exports/
 !*/exports/
+
+# Test controller
+/controllers/testController.py

@@ -37,17 +37,23 @@ it with "macarm64".
 
 ## How to use this code
 Once you create all the plots and edit them however you like in a COMSOL file, you can use that
-file to generate presets of those plots for all your future files. Add the name(s) of the COMSOL
+file to generate presets of those plots for all your future files. Inset your COMSOL file(s) in the
+`data` directory.
+
+The functions that generate and read presets are present in the `functions/presets.py`file. A
+PyCharm configuration to generate the presets will be included in the future. Currently, only
+multiphysics physics related plot presets exist. These presets are present in the
+`presets_files/plots/` directory. Once you generate your custom presets, they will be saved in 
+`presets_files/new/` directory. You may edit these presets before using them. Once you are done
+editing them, you need to move them from the `presets_files/new/` directory to the
+`presets_files/plots` directory.
+
+To use the COMSOL files in the `data` directory, you need to add the names of the files to the xml
+file in the `options/` directory called `options.xml`.
 files in the `data/inputVariables.py` file. Inset your COMSOL file(s) in the `data`
 directory. New preset files are exported in the `new_plot_presets` folder. This folder contains
 directories for each plotgroup that you have in the COMSOL file, and each directory contains a
 file for each plot in that plotgroup. The parent directory also contains a file for each plotgroup.
-
-The functions that generate and read presets are present in the `functions/presets.py`file. A
-PyCharm configuration to generate the presets will be included in the future. Currently, only
-multiphysics physics related plot presets exist. These presets are present in the `presets_files`
-directory. Once you generate your custom presets, you need to move them from the `new_plot_presets`
-directory to the `presets_files` directory.
 
 > The reason these directories exist separately is so you can make changes to the presets files
 > after exporting them if need be.

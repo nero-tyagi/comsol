@@ -1,4 +1,5 @@
-from constants import EXPORT_PRESETS_PATH
-from options.parsers.exportPresets import parse_export_presets
+import numpy as np
+import pandas as pd
+from functions.collectionScatter import create_mass_flow_scatter, calc_mdot
 
-print(parse_export_presets(EXPORT_PRESETS_PATH))
+create_mass_flow_scatter()
