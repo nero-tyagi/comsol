@@ -15,15 +15,15 @@ MPH_FILES = [
     # 'data/SDPR8.mph',
 ]
 
+PRESETS_FOLDER = "presets_files/"
+# WARNING: Do not change to just "exports" because of non-overwrite mode in batch exporting.
+EXPORT_DIRECTORY = "data/exports/"
 ### Directories
 # System
 os.environ["DYLD_LIBRARY_PATH"] = "/Applications/COMSOL63/Multiphysics"
 PATH = os.environ["DYLD_LIBRARY_PATH"]
 
 # Data files
-PRESETS_FOLDER = "presets_files/"
-# WARNING: Do not change to just "exports" because of non-overwrite mode in batch exporting.
-EXPORT_DIRECTORY = "data/exports/"
 
 # Option files
 JOBS_PATH = "options/jobs.xml"

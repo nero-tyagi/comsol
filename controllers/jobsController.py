@@ -76,20 +76,20 @@ for workItem in jobs.work_items:
         # Appending to the sol count that already exists in the exports directory
         outer_sol_name_i = 0  # starting file name count
 
-        print("\nChecking existing files for the current model name...")
+        print("\nChecking existing files in the export directory for the current model name...")
         try:
             files = listdir(EXPORT_DIRECTORY)
             # print(files)
             try:
                 # Separating the files that contain only the current model's name
-                files = [x for x in files if model in x]
+                files = [x for x in files if mph_file_name in x]
                 # print("Cleaned list of files: ")
                 # print(files)
                 max_int = 0
 
                 # WARNING: This is sensitive to how the folders are named.
                 for file in files:
-                    latter_part = str(file).split(model + " - ", 1)[1]
+                    latter_part = str(file).split(mph_file_name + " - ", 1)[1]
                     # print("latter_part:", latter_part)
 
                     # Find the number before the first '['
@@ -117,6 +117,7 @@ for workItem in jobs.work_items:
 
             sol_title = solution.sol
             sol_node = model / 'solutions' / sol_title
+            print("Solution node: " + str(sol_node))
             view = solution.view
 
             # Finding the dataset that the solution node belongs to in order to assign it
@@ -130,7 +131,9 @@ for workItem in jobs.work_items:
             dset_node = model / 'datasets' / dset
             dset = dset_node.tag()
             outer_solutions = sol_node.children()
-
+            if not outer_solutions:
+                print("Solution is not a parametric solution - not changing solnum")
+                outer_solutions = [sol_node]
             outer_sol_i = 1
 
             # Iterating over the outer solutions for the current plot group
