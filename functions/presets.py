@@ -2,6 +2,7 @@ import re
 import numpy as np
 from functions.mph import get_node_properties
 from constants import *
+from pathlib import Path
 
 #todo: Add new presets for streamlines, vector plots, and new colors for some contours.
 #todo: Add new plots for vorticity, turbulence energy, and inter-phase momentum transfer vector plot.
@@ -66,9 +67,17 @@ def write_presets(model, plot_group_nodes=None, node_type='plots'):
                      + "\n\t" + node_type + " type: " + str(pg.type())
                      + "\n")
         properties, properties_readable = get_node_properties(pg)
-        with open(PRESETS_FOLDER + "new/" + node_type + "/" + pg.name() + ".txt", "w") as file:
+        path = (
+            Path(PRESETS_FOLDER)
+            / "new"
+            / node_type
+        )
+        path.mkdir(parents=True, exist_ok=True)
+        filepath = path / f"{pg.name()}.txt"
+        with open(filepath, "w") as file:
             file.write(str(properties))
-        with open(PRESETS_FOLDER + "new/" + node_type + "/" + "READABLE_" + pg.name() + ".txt", "w") as file:
+        filepath = path / f"READABLE_{pg.name()}.txt"
+        with open(filepath, "w") as file:
             file.write(str(properties_readable))
 
         if node_type == 'plots':

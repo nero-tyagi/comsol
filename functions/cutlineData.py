@@ -17,17 +17,20 @@ h_ = 0.5
 Hs = 2
 H = h_ * Hs
 Ws = 5
-w = h_ * Ws
+w =  h_ * Ws
 r2 = r_i + h_ / sin(theta) * cos(theta + aoa)
 z2 = z_i + h_ / sin(theta) * sin(theta + aoa)
 r3 = r2 + cos(aoa) * w
 z3 = z2 + sin(aoa) * w
 
-cols = ['r', 'z', 'phid', 'udr', 'udz', 'ucr', 'ucz']
-rib_dfs = { }
-ribs_dfs = { }
-gap_loss_data = []
+df = pd.DataFrame(columns=['r', 'z', 'phid', 'udr', 'udz', 'ucr', 'ucz'])
+rib_dfs = {
 
+}
+
+ribs_dfs = {
+
+}
 # Iterating over the ribs
 for i in range(numribs - 1):
 
@@ -42,7 +45,7 @@ for i in range(numribs - 1):
     r_outlet = [0,
                 r_i + i * (H + h_) / sin(theta_c - aoa) * cos(theta_c)]
     z_outlet = [z_i + i * (H + h_) / sin(theta_c - aoa) * sin(theta_c),
-                z_i + i * (H + h_) / sin(theta_c - aoa) * sin(theta_c)]
+               z_i + i * (H + h_) / sin(theta_c - aoa) * sin(theta_c)]
     r_loss = [r3 + i * (H + h_) / sin(theta_c - aoa) * cos(theta_c),
               r3 + i * (H + h_) / sin(theta_c - aoa) * cos(theta_c)]
     z_loss = [z3 + i * (H + h_) / sin(theta_c - aoa) * sin(theta_c),
@@ -68,9 +71,10 @@ for i in range(numribs - 1):
 
     # print(export_cutlines_node.properties())
     path = (
-            Path("exports")
-            / "ribs_data"
-            / gap_name
+        Path("data")
+        / "exports"
+        / "ribs_data"
+        / gap_name
     )
     path.mkdir(parents=True, exist_ok=True)
 
@@ -88,70 +92,13 @@ for i in range(numribs - 1):
         print("Could not export")
         print(e)
 
-    path = (
-            Path("data")
-            / "exports"
-            / "ribs_data"
-            / gap_name
-    )
-    df = pd.read_table(path / "outlet.txt", sep='\t', header=None, names=cols)
+    df = pd.read_table(path / "outlet.txt", sep='\t', header=None)
     rib_dfs["outlet"] = df
-    df = pd.read_table(path / "inlet.txt", sep='\t', header=None, names=cols)
+    df = pd.read_table(path / "inlet.txt", sep='\t', header=None)
     rib_dfs["inlet"] = df
-    df = pd.read_table(path / "loss.txt", sep='\t', header=None, names=cols)
+    df = pd.read_table(path / "loss.txt", sep='\t', header=None)
     rib_dfs["loss"] = df
 
     ribs_dfs[gap_name] = rib_dfs
 
-    if gap_name == "gap_47":
-        print(ribs_dfs[gap_name]['outlet'].iloc[0])
-
-    mdot = []
-    for i in range(1, len(rib_dfs['outlet']['r'])):
-        mdot.append((2 * pi *
-                   ((rib_dfs['outlet']['r'].iloc[i])) / 100 *
-                   ((rib_dfs['outlet']['r'].iloc[i]) - (rib_dfs['outlet']['r'].iloc[i - 1])) / 100 *
-                   (-1 * rib_dfs['outlet']['udz'].iloc[i]) *
-                   1200 *
-                   rib_dfs['outlet']['phid'].iloc[i] / 1E6))
-    outlet_flow_rate = sum(mdot)
-
-    mdot = []
-    for i in range(1, len(rib_dfs['inlet']['r'])):
-        mdot.append((2 * pi *
-                   ((rib_dfs['inlet']['r'].iloc[i])) / 100 *
-                   ((rib_dfs['inlet']['r'].iloc[i]) - (rib_dfs['inlet']['r'].iloc[i - 1])) / 100 *
-                   (-1 * rib_dfs['inlet']['udz'].iloc[i]) *
-                   1200 *
-                   rib_dfs['inlet']['phid'].iloc[i] / 1E6))
-    inlet_flow_rate = sum(mdot)
-
-    mdot = []
-    avg_loss_v = []
-    for i in range(1, len(rib_dfs['loss']['z'])):
-        mdot.append((2 * pi *
-                   ((rib_dfs['loss']['r'].iloc[i])) / 100 *
-                   ((rib_dfs['loss']['z'].iloc[i]) - (rib_dfs['loss']['z'].iloc[i - 1])) / 100 *
-                   (-1 * rib_dfs['loss']['udr'].iloc[i]) *
-                   1200 *
-                   rib_dfs['loss']['phid'].iloc[i] / 1E6))
-        avg_loss_v.append(rib_dfs['loss']['udr'].iloc[i])
-    loss_flow_rate = sum(mdot)
-    avg_loss_v = sum(avg_loss_v) / len(avg_loss_v)
-
-    gap_loss_data.append({
-        'gap': gap_name,
-        'inlet_flow_rate': inlet_flow_rate,
-        'outlet_flow_rate': outlet_flow_rate,
-        'loss_flow_rate': loss_flow_rate,
-        'avg_loss_v': avg_loss_v})
-
-
-    print()
-    print()
-    print("mass difference")
-    print(inlet_flow_rate - outlet_flow_rate - loss_flow_rate)
-    print()
-
-pd.DataFrame(gap_loss_data).to_csv('data/gap_loss_data.csv', mode='a', header=False)
 model.save()

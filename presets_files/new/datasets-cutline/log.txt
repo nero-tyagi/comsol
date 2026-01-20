@@ -1,0 +1,4 @@
+outlet
+	datasets-cutline path: ('datasets', 'outlet')
+	datasets-cutline tag: cln1
+	datasets-cutline type: CutLine2D
