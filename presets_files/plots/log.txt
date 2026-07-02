@@ -1,0 +1,68 @@
+Continuous Phase Velocity
+	Plot path: ('plots', 'Continuous Phase Velocity')
+	Plot tag: pg11
+	Plot type: PlotGroup2D
+
+	Surface plot
+		Plot path: ('plots', 'Continuous Phase Velocity', 'Surface plot')
+		Plot tag: surf1
+		Plot type: Surface
+
+Dispersed Phase Velocity
+	Plot path: ('plots', 'Dispersed Phase Velocity')
+	Plot tag: pg12
+	Plot type: PlotGroup2D
+
+	Surface plot
+		Plot path: ('plots', 'Dispersed Phase Velocity', 'Surface plot')
+		Plot tag: surf1
+		Plot type: Surface
+
+Pressure
+	Plot path: ('plots', 'Pressure')
+	Plot tag: pg17
+	Plot type: PlotGroup2D
+
+	Surface plot
+		Plot path: ('plots', 'Pressure', 'Surface plot')
+		Plot tag: surf1
+		Plot type: Surface
+	Contour plot
+		Plot path: ('plots', 'Pressure', 'Contour plot')
+		Plot tag: con1
+		Plot type: Contour
+
+Streamlines (Uc)
+	Plot path: ('plots', 'Streamlines (Uc)')
+	Plot tag: pg18
+	Plot type: PlotGroup2D
+
+	Streamlines
+		Plot path: ('plots', 'Streamlines (Uc)', 'Streamlines')
+		Plot tag: str1
+		Plot type: Streamline
+
+Separation Velocity (Ud - Uc), Arrow Surface
+	Plot path: ('plots', 'Separation Velocity (Ud - Uc), Arrow Surface')
+	Plot tag: pg15
+	Plot type: PlotGroup2D
+
+	Surface plot
+		Plot path: ('plots', 'Separation Velocity (Ud - Uc), Arrow Surface', 'Surface plot')
+		Plot tag: surf1
+		Plot type: Surface
+	Arrow surface plot
+		Plot path: ('plots', 'Separation Velocity (Ud - Uc), Arrow Surface', 'Arrow surface plot')
+		Plot tag: arws1
+		Plot type: ArrowSurface
+
+Dispersed Phase Volume Fraction
+	Plot path: ('plots', 'Dispersed Phase Volume Fraction')
+	Plot tag: pg13
+	Plot type: PlotGroup2D
+
+	Surface plot
+		Plot path: ('plots', 'Dispersed Phase Volume Fraction', 'Surface plot')
+		Plot tag: surf1
+		Plot type: Surface
+

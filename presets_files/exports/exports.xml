@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exportPresets>
+    <preset name="preset_1">
+        <property name='aspectratio' value='1.0' />
+        <property name='background' value='color' />
+        <property name='colortheme' value='ClassicDark' />
+        <property name='fontsize' value='20' />
+        <property name='height' value='1000.0' />
+        <property name='heightmultiple' value='1' />
+        <property name='heightpx' value='1000' />
+        <property name='qualitylevel' value='100' />
+        <property name='resolution' value='96' />
+        <property name='showgrid' value='True' />
+        <property name='sourcetype' value='plotgroup' />
+        <property name='width' value='1000.0' />
+        <property name='widthpx' value='1000.0' />
+    </preset>
+</exportPresets>

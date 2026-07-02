@@ -1,0 +1,26 @@
+# PyCharm IDE files
+.idea/*
+!.idea/runConfigurations/
+!.idea/runConfigurations/*.xml
+.idea/workspace.xml
+.idea/shelf/
+.idea/httpRequests/
+
+# Python files
+.venv/
+.DS_Store
+__pycache__
+
+# Input and export folders
+/data/*
+!/data/
+/data/exports/*
+/data/Exports/*
+!/data/jobs.xml
+!/data/jobs_template.xml
+output_files/
+/Exports/
+!*/exports/
+
+# Test controller
+/controllers/testController.py

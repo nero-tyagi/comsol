@@ -3,7 +3,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-import ezdxf
 
 matplotlib.rcParams.update({'text.usetex': True})
 
@@ -54,6 +53,7 @@ def plot_same_stokes(model):
                 else:
                     plot_data.append({
                         'x': np.array(line_data[str(outer_solutions[j].name())]),
+                        'y': np.array(line_data['z']),
                         'y': np.array(line_data['z']),
                         'label': solution_name
                     })

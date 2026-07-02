@@ -1,5 +1,3 @@
-import mph
-
 # Returns the names of all the clients open in memory
 def get_client_names(client):
     return client.names()
@@ -11,7 +9,7 @@ def get_parameters(model):
     for (name, value) in model.parameters().items():
         parameter = [name, value]
         parameters.append(parameter)
-    return parameters
+
 
 # Returns the value of a stated parameter
 def get_parameter(model, parameter_name):
@@ -39,7 +37,7 @@ def get_solutions(model):
 
 # Returns all the solutions present inside the model
 def get_datasets(model):
-    return model.datasets()
+    return model.solutions()
 
 # Returns all the solutions present inside the model
 def get_plots(model):
@@ -52,3 +50,28 @@ def get_exports(model):
 # Returns all the solutions present inside the model
 def get_problems(model):
     return model.problems()
+
+def get_node_properties(node):
+    node_properties = []
+    node_properties_readable = ""
+    for i in node.properties():
+        property = []
+        property.append(i)
+        property.append(node.property(i))
+        property.append(type(node.property(i)))
+        node_properties_readable += i
+        node_properties_readable += (" = " + str(node.property(i)) +
+                            "[" + str(type(node.property(i))) + "]")
+        node_properties_readable += "\n"
+        node_properties.append(property)
+    return node_properties, node_properties_readable
+
+def clearPlotGroups(model):
+    pg_nodes = model/'plots'
+    for node in pg_nodes:
+        node.remove()
+
+def clearExportNodes(model):
+    export_nodes = model/'exports'
+    for node in export_nodes:
+        node.remove()

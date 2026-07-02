@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plotGroups>
+    <plotGroup id="1" name="Continuous Phase Velocity" pngName="Uc" />
+    <plotGroup id="2" name="Dispersed Phase Velocity" pngName="Ud"/>
+    <plotGroup id="3" name="Pressure" pngName="P"/>
+    <plotGroup id="4" name="Streamlines (Uc)" pngName="Uc, streamlines"/>
+    <plotGroup id="5" name="Separation Velocity (Ud - Uc), Arrow Surface" pngName="Ud-Uc, arrows"/>
+    <plotGroup id="6" name="Dispersed Phase Volume Fraction" pngName="phi"/>
+</plotGroups>
