@@ -1,5 +1,8 @@
-import numpy as np
+from math import sin, cos, tan, pi
 import pandas as pd
-from functions.collectionScatter import create_mass_flow_scatter, calc_mdot
+from pathlib import Path
+from controllers.mphController import controller
+from matplotlib import pyplot as plt
+from functions.ribCountAnalysis import ribCountAnalysis
 
-create_mass_flow_scatter()
+ribCountAnalysis()
